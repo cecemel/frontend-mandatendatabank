@@ -57,9 +57,11 @@
             <slot></slot>
           </picture>
           <div class="au-wc-content-header__wrapper">
-            ${titleOne ? `<span class="au-wc-content-header__top">${titleOne}</span>` : ''}
-            <br>
-            ${titleTwo ? `<span class="au-wc-content-header__bottom">${titleTwo}</span>` : ''}
+            <div class="au-wc-layout">
+              ${titleOne ? `<span class="au-wc-content-header__top">${titleOne}</span>` : ''}
+              <br>
+              ${titleTwo ? `<span class="au-wc-content-header__bottom">${titleTwo}</span>` : ''}
+            </div>
           </div>
         </section>
       `;

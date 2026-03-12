@@ -751,6 +751,26 @@ au-wc-loader {
 }
 
 /* ==========================================================================
+   Layout — au-wc-layout
+   Source: ember-appuniversum/styles/objects/_o-layout.scss ($au-layout-width: 900px)
+   ========================================================================== */
+
+.au-wc-layout {
+  padding-right: 2.4rem;
+  padding-left: 2.4rem;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 900px;
+}
+
+@media (min-width: 63.9375em) {
+  .au-wc-layout {
+    padding-right: 4.8rem;
+    padding-left: 4.8rem;
+  }
+}
+
+/* ==========================================================================
    Content Header — au-wc-content-header (shadow DOM)
    CSS used inside the shadow root via <link href="styles.css">
    ========================================================================== */
@@ -778,7 +798,7 @@ au-wc-loader {
   transform-origin: 100% 50%;
 }
 
-.au-wc-content-header__bg img {
+.au-wc-content-header__bg ::slotted(img) {
   position: absolute;
   top: 0;
   left: 0;
@@ -874,6 +894,11 @@ au-wc-loader {
   fill: var(--au-gray-900);
   height: 100%;
   width: 56%;
+}
+
+.au-wc-brand__logo img {
+  height: 100%;
+  width: auto;
 }
 
 .au-wc-brand__logo::before {
