@@ -59,8 +59,8 @@
   function makeSvgIcon(name, large = false) {
     const path = ICON_PATHS[name];
     if (!path) return '';
-    const sizeClass = large ? ' au-c-icon--large' : '';
-    return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="au-c-icon${sizeClass}" aria-hidden="true">${path}</svg>`;
+    const sizeClass = large ? ' au-wc-icon--large' : '';
+    return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="au-wc-icon${sizeClass}" aria-hidden="true">${path}</svg>`;
   }
 
   /* ==========================================================================
@@ -68,16 +68,16 @@
      ========================================================================== */
 
   const BADGE_SKIN_CLASSES = {
-    border:  'au-c-badge--border',
-    action:  'au-c-badge--action',
-    brand:   'au-c-badge--brand',
-    success: 'au-c-badge--success',
-    warning: 'au-c-badge--warning',
-    error:   'au-c-badge--error',
+    border:  'au-wc-badge--border',
+    action:  'au-wc-badge--action',
+    brand:   'au-wc-badge--brand',
+    success: 'au-wc-badge--success',
+    warning: 'au-wc-badge--warning',
+    error:   'au-wc-badge--error',
   };
 
   function badgeSkinClass(skin) {
-    return BADGE_SKIN_CLASSES[skin] || 'au-c-badge--default';
+    return BADGE_SKIN_CLASSES[skin] || 'au-wc-badge--default';
   }
 
   /* ==========================================================================
@@ -95,7 +95,7 @@
   /* ==========================================================================
      <au-wc-card-header>
 
-     The element itself becomes the .au-c-card__header div.
+     The element itself becomes the .au-wc-card__header div.
      On connect, existing children are wrapped in a div so the badge can be
      prepended as :nth-child(1), pushing the content to :nth-child(2) — which
      matches the flex CSS that gives the content wrapper flex-grow: 2.
@@ -107,7 +107,7 @@
     }
 
     connectedCallback() {
-      this.classList.add('au-c-card__header');
+      this.classList.add('au-wc-card__header');
       // Badge is prepended as :nth-child(1).
       // The <div> wrapper that the template must supply becomes :nth-child(2),
       // which the flex CSS targets for flex-grow: 2.
@@ -136,9 +136,9 @@
 
       const badge = document.createElement('span');
       badge.className = [
-        'au-c-badge',
+        'au-wc-badge',
         badgeSkinClass(skin),
-        size === 'small' ? 'au-c-badge--small' : '',
+        size === 'small' ? 'au-wc-badge--small' : '',
         '__au-badge',  // internal marker for re-render bookkeeping
       ].filter(Boolean).join(' ');
       badge.setAttribute('aria-hidden', 'true');
@@ -147,7 +147,7 @@
         badge.innerHTML = makeSvgIcon(icon);
       } else {
         const num = document.createElement('span');
-        num.className = 'au-c-badge__number';
+        num.className = 'au-wc-badge__number';
         num.textContent = number;
         badge.appendChild(num);
       }
@@ -160,31 +160,31 @@
   /* ==========================================================================
      <au-wc-card-content>
 
-     The element itself becomes the .au-c-card__content div.
+     The element itself becomes the .au-wc-card__content div.
      ========================================================================== */
 
   class AuCardContent extends HTMLElement {
     connectedCallback() {
-      this.classList.add('au-c-card__content');
+      this.classList.add('au-wc-card__content');
     }
   }
 
   /* ==========================================================================
      <au-wc-card-footer>
 
-     The element itself becomes the .au-c-card__footer div.
+     The element itself becomes the .au-wc-card__footer div.
      ========================================================================== */
 
   class AuCardFooter extends HTMLElement {
     connectedCallback() {
-      this.classList.add('au-c-card__footer');
+      this.classList.add('au-wc-card__footer');
     }
   }
 
   /* ==========================================================================
      <au-wc-card>
 
-     The element itself becomes the <article class="au-c-card ..."> wrapper.
+     The element itself becomes the <article class="au-wc-card ..."> wrapper.
      Handles:
        - CSS modifier classes from attributes
        - Expandable behaviour (toggle button + show/hide of content)
@@ -213,23 +213,23 @@
       const size = this.getAttribute('size');
 
       const auClasses = [
-        'au-c-card',
-        'au-c-card--fill',
-        size === 'small' ? 'au-c-card--padding-small'
-          : size === 'tiny'  ? 'au-c-card--padding-tiny'
+        'au-wc-card',
+        'au-wc-card--fill',
+        size === 'small' ? 'au-wc-card--padding-small'
+          : size === 'tiny'  ? 'au-wc-card--padding-tiny'
           : size === 'flush' ? null
-          : 'au-c-card--padding',
-        boolAttr(this, 'flex')        ? 'au-c-card--flex'        : null,
-        boolAttr(this, 'expandable')  ? 'au-c-card--expandable'  : null,
-        boolAttr(this, 'shadow')      ? 'au-c-card--shadow'      : null,
-        boolAttr(this, 'divided')     ? 'au-c-card--divided'     : null,
-        boolAttr(this, 'text-center') ? 'au-c-card--text-center' : null,
-        boolAttr(this, 'standout')    ? 'au-c-card--standout'    : null,
+          : 'au-wc-card--padding',
+        boolAttr(this, 'flex')        ? 'au-wc-card--flex'        : null,
+        boolAttr(this, 'expandable')  ? 'au-wc-card--expandable'  : null,
+        boolAttr(this, 'shadow')      ? 'au-wc-card--shadow'      : null,
+        boolAttr(this, 'divided')     ? 'au-wc-card--divided'     : null,
+        boolAttr(this, 'text-center') ? 'au-wc-card--text-center' : null,
+        boolAttr(this, 'standout')    ? 'au-wc-card--standout'    : null,
       ].filter(Boolean);
 
       // Preserve any user-supplied classes (e.g. utility classes from the app).
       const userClasses = Array.from(this.classList)
-        .filter(c => !c.startsWith('au-c-card'));
+        .filter(c => !c.startsWith('au-wc-card'));
 
       this.className = [...auClasses, ...userClasses].join(' ');
     }
@@ -251,13 +251,13 @@
 
       // Build clickable wrapper that houses the header + toggle button.
       const clickable = document.createElement('div');
-      clickable.className = 'au-c-card__clickable';
+      clickable.className = 'au-wc-card__clickable';
       clickable.setAttribute('role', 'button');
       clickable.setAttribute('tabindex', '0');
 
       // Toggle button (aria-hidden — the clickable div itself is the interactive region).
       const toggle = document.createElement('button');
-      toggle.className = 'au-c-card__toggle';
+      toggle.className = 'au-wc-card__toggle';
       toggle.setAttribute('aria-hidden', 'true');
       toggle.setAttribute('tabindex', '-1');
       toggle.setAttribute('aria-expanded', this._expanded ? 'true' : 'false');
@@ -271,8 +271,8 @@
 
         toggle.innerHTML = [
           makeSvgIcon(iconName, true),
-          `<span class="au-u-hidden-visually au-c-card__toggle-false">Verberg</span>`,
-          `<span class="au-u-hidden-visually au-c-card__toggle-true">Toon</span>`,
+          `<span class="au-wc-hidden-visually au-wc-card__toggle-false">Verberg</span>`,
+          `<span class="au-wc-hidden-visually au-wc-card__toggle-true">Toon</span>`,
         ].join('');
       };
 
