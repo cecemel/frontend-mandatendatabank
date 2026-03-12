@@ -1,11 +1,13 @@
 <div class="au-o-flow">
-  <AuCard @flex="true" id="bestuursorgaan-search-wizard-step-1" class="bestuursorgaan-search-wizard-scroll-offset" as |c|>
-    <c.header @badgeSkin={{if this.werkingsgebied "success" "action"}} @badgeIcon={{if this.werkingsgebied "check"}} @badgeNumber={{unless this.werkingsgebied "1"}}>
-      <AuHeading @level="2" @skin="4" id="describe-search">
-        Stap 1: Zoek een gemeente, provincie of district.
-      </AuHeading>
-    </c.header>
-    <c.content>
+  <au-wc-card flex id="bestuursorgaan-search-wizard-step-1" class="bestuursorgaan-search-wizard-scroll-offset">
+    <au-wc-card-header badge-skin={{if this.werkingsgebied "success" "action"}} badge-icon={{if this.werkingsgebied "check"}} badge-number={{unless this.werkingsgebied "1"}}>
+      <div>
+        <AuHeading @level="2" @skin="4" id="describe-search">
+          Stap 1: Zoek een gemeente, provincie of district.
+        </AuHeading>
+      </div>
+    </au-wc-card-header>
+    <au-wc-card-content>
       <div style="position: relative; overflow: hidden;" {{!template-lint-disable no-inline-styles}}>
         <PowerSelect
           @ariaLabel="Zoekbalk"
@@ -23,26 +25,28 @@
         </PowerSelect>
       </div>
       <AuHelpText>Oost-Vlaanderen, Berchem, Hasselt, ...</AuHelpText>
-    </c.content>
-  </AuCard>
+    </au-wc-card-content>
+  </au-wc-card>
 
-  <AuCard @flex="true" id="bestuursorgaan-search-wizard-step-2" class="bestuursorgaan-search-wizard-scroll-offset" as |c|>
-    <c.header @badgeIcon={{if this.bestuursorganen "check"}}
-    @badgeNumber={{unless this.bestuursorganen "2"}}
-    @badgeSkin={{if this.bestuursorganen "success" "action"}}>
-      <AuHeading @level="2" @skin="4" >
-        Stap 2: Kies een bestuurseenheid
-      </AuHeading>
-      {{#unless this.werkingsgebied}}
-      <p>Kies eerst een gemeente, provincie of district.</p>
-      {{/unless}}
-    </c.header>
+  <au-wc-card flex id="bestuursorgaan-search-wizard-step-2" class="bestuursorgaan-search-wizard-scroll-offset">
+    <au-wc-card-header badge-icon={{if this.bestuursorganen "check"}}
+      badge-number={{unless this.bestuursorganen "2"}}
+      badge-skin={{if this.bestuursorganen "success" "action"}}>
+      <div>
+        <AuHeading @level="2" @skin="4">
+          Stap 2: Kies een bestuurseenheid
+        </AuHeading>
+        {{#unless this.werkingsgebied}}
+        <p>Kies eerst een gemeente, provincie of district.</p>
+        {{/unless}}
+      </div>
+    </au-wc-card-header>
     {{#if @isLoadingBestuurseenheden}}
-      <c.content>
+      <au-wc-card-content>
         <AuLoader class="au-u-margin-bottom-huge">Bestuurseenheden aan het laden</AuLoader>
-      </c.content>
+      </au-wc-card-content>
     {{else if this.werkingsgebied}}
-      <c.content>
+      <au-wc-card-content>
         <div class="au-o-grid au-o-grid--fixed">
           {{#each this.bestuurseenheden as |eenheid|}}
             <div class="au-o-grid__item au-u-1-1 au-u-1-2@medium au-u-1-3@large">
@@ -56,26 +60,27 @@
             </div>
           {{/each}}
         </div>
-      </c.content>
+      </au-wc-card-content>
     {{/if}}
-  </AuCard>
+  </au-wc-card>
 
-  <AuCard @flex="true" id="bestuursorgaan-search-wizard-step-3" class="bestuursorgaan-search-wizard-scroll-offset" as |c|>
-    <c.header @badgeNumber="3"
-    @badgeSkin="action">
-      <AuHeading @level="2" @skin="4">
-        Stap 3: Kies een bestuursorgaan
-      </AuHeading>
-      {{#unless this.bestuursorganen}}
-      <p>Kies eerst een bestuurseenheid.</p>
-      {{/unless}}
-    </c.header>
+  <au-wc-card flex id="bestuursorgaan-search-wizard-step-3" class="bestuursorgaan-search-wizard-scroll-offset">
+    <au-wc-card-header badge-number="3" badge-skin="action">
+      <div>
+        <AuHeading @level="2" @skin="4">
+          Stap 3: Kies een bestuursorgaan
+        </AuHeading>
+        {{#unless this.bestuursorganen}}
+        <p>Kies eerst een bestuurseenheid.</p>
+        {{/unless}}
+      </div>
+    </au-wc-card-header>
     {{#if @isLoadingBestuursorganen}}
-      <c.content>
+      <au-wc-card-content>
         <AuLoader class="au-u-margin-bottom-huge">Bestuursorganen aan het laden</AuLoader>
-      </c.content>
+      </au-wc-card-content>
     {{else if this.bestuursorganen}}
-      <c.content>
+      <au-wc-card-content>
         <div class="au-o-grid au-o-grid--fixed">
           {{#each this.bestuursorganen as |orgaan|}}
             <div class="au-o-grid__item au-u-1-1 au-u-1-2@medium">
@@ -100,7 +105,7 @@
             </div>
           {{/each}}
         </div>
-      </c.content>
+      </au-wc-card-content>
     {{/if}}
-  </AuCard>
+  </au-wc-card>
 </div>

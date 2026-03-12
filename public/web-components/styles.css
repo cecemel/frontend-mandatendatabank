@@ -1,0 +1,446 @@
+/* ==========================================================================
+   Appuniversum Web Components — Shared Styles
+   Design tokens + component CSS extracted from ember-appuniversum.
+
+   Inject once in your HTML head:
+     <link rel="stylesheet" href="/web-components/styles.css">
+   ========================================================================== */
+
+/* ==========================================================================
+   Design Tokens (CSS custom properties)
+   Source: ember-appuniversum/styles/settings/_s-root.scss
+   ========================================================================== */
+
+:root {
+  /* Colors */
+  --au-white: #ffffff;
+  --au-gray-100: #f7f9fc;
+  --au-gray-200: #e8ebee;
+  --au-gray-300: #cfd5dd;
+  --au-gray-400: #afb9c5;
+  --au-gray-500: #8695a8;
+  --au-gray-600: #7f8b99;
+  --au-gray-700: #687483;
+  --au-gray-800: #4f5864;
+  --au-gray-900: #333332;
+  --au-gray-1000: #000000;
+  --au-blue-100: #f4f7fb;
+  --au-blue-200: #e4ebf5;
+  --au-blue-300: #b2ccef;
+  --au-blue-500: #5990de;
+  --au-blue-600: #3779d7;
+  --au-blue-700: #0055cc;
+  --au-blue-800: #004ab2;
+  --au-blue-900: #003b8e;
+  --au-yellow-100: #fff9d5;
+  --au-yellow-200: #fff29b;
+  --au-yellow-300: #ffe615;
+  --au-yellow-400: #ffc515;
+  --au-yellow-600: #7f6e3b;
+  --au-yellow-900: #473d21;
+  --au-orange-200: #fff9e8;
+  --au-orange-300: #ffeeb9;
+  --au-orange-400: #ffe49c;
+  --au-orange-500: #ffa10a;
+  --au-orange-600: #d07b06;
+  --au-orange-700: #9f5804;
+  --au-red-100: #fdf7f7;
+  --au-red-200: #fbeded;
+  --au-red-300: #f4c8c9;
+  --au-red-400: #f1aeae;
+  --au-red-500: #e77474;
+  --au-red-600: #d2373c;
+  --au-red-700: #aa2729;
+  --au-red-900: #470000;
+  --au-green-100: #f8fcf9;
+  --au-green-200: #ecf6ee;
+  --au-green-300: #c5e5cc;
+  --au-green-400: #b1dcbb;
+  --au-green-500: #009e47;
+  --au-green-700: #007a37;
+  --au-green-900: #323d08;
+
+  /* Legacy VL color aliases */
+  --vl-white: #ffffff;
+  --vl-grey-05: #f7f9fc;
+  --vl-grey-10: #e8ebee;
+  --vl-grey-20: #cfd5dd;
+  --vl-grey-50: #8695a8;
+  --vl-grey-70: #687483;
+  --vl-grey-100: #333332;
+  --vl-grey-110: #000000;
+  --vl-yellow-100: #ffe615;
+  --vl-blue-15: #e4ebf5;
+  --vl-blue-30: #b2ccef;
+  --vl-blue-65: #5990de;
+  --vl-blue-100: #0055cc;
+  --vl-blue-110: #003b8e;
+  --vl-green-10: #ecf6ee;
+  --vl-green-30: #c5e5cc;
+  --vl-green-40: #b1dcbb;
+  --vl-green-100: #009e47;
+  --vl-green-130: #007a37;
+  --vl-red-10: #fbeded;
+  --vl-red-30: #f4c8c9;
+  --vl-red-40: #f1aeae;
+  --vl-red-100: #d2373c;
+  --vl-red-130: #aa2729;
+  --vl-orange-10: #fff9e8;
+  --vl-orange-30: #ffeeb9;
+  --vl-orange-40: #ffe49c;
+  --vl-orange-100: #ffa10a;
+  --vl-orange-110: #d07b06;
+  --vl-orange-120: #9f5804;
+
+  /* Typography */
+  --au-global-font-size: 1.5rem;
+  --au-global-line-height: 1.5;
+  --au-font: "flanders-sans", BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --au-light: 300;
+  --au-regular: 400;
+  --au-medium: 500;
+  --au-bold: 700;
+
+  /* Icon sizes */
+  --au-icon-size: 1.3rem;
+  --au-icon-size-medium: 1.6rem;
+  --au-icon-size-large: 1.9rem;
+
+  /* UI */
+  --au-radius: 0.3rem;
+  --au-border: 0.2rem;
+  --au-outline: #5990de 0.3rem solid;
+  --au-outline-offset: 0.2rem;
+  --au-transition: 0.125s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* ==========================================================================
+   Utility — visually hidden (used for expandable toggle labels)
+   ========================================================================== */
+
+.au-u-hidden-visually {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ==========================================================================
+   Icons
+   Source: ember-appuniversum/styles/components/_c-icon.scss
+   ========================================================================== */
+
+.au-c-icon {
+  display: inline-block;
+  width: var(--au-icon-size);
+  height: var(--au-icon-size);
+  position: relative;
+  vertical-align: baseline;
+  bottom: 0.05ex;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.au-c-icon--large {
+  width: var(--au-icon-size-large);
+  height: var(--au-icon-size-large);
+}
+
+/* ==========================================================================
+   Badge
+   Source: ember-appuniversum/styles/components/_c-badge.scss
+   SCSS unit values resolved: $au-unit-large = 4.8rem, $au-unit = 2.4rem
+   ========================================================================== */
+
+.au-c-badge {
+  color: var(--au-gray-700);
+  background-color: var(--au-white);
+  border-radius: 4.8rem;
+  height: 4.7rem; /* $au-unit-large - 0.1rem */
+  width: 4.8rem;
+  margin-right: 2.4rem; /* $au-unit-large * 0.5 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.au-c-badge .au-c-icon {
+  height: 1.9rem; /* $au-badge-icon-size - 0.1rem */
+  width: 2rem;
+  bottom: 0;
+}
+
+.au-c-badge__number {
+  font-weight: var(--au-medium);
+  font-size: 2rem;
+}
+
+/* Badge skins */
+.au-c-badge--default {
+  color: var(--au-gray-900);
+  background-color: var(--au-gray-200);
+}
+
+.au-c-badge--border {
+  color: var(--au-gray-900);
+  border: 0.1rem solid var(--au-gray-300);
+}
+
+.au-c-badge--action {
+  color: var(--au-white);
+  background-color: var(--au-blue-700);
+}
+
+.au-c-badge--brand {
+  color: var(--au-yellow-900);
+  background-color: var(--au-yellow-300);
+}
+
+.au-c-badge--success {
+  color: var(--au-white);
+  background-color: var(--au-green-700);
+}
+
+.au-c-badge--warning {
+  color: var(--au-white);
+  background-color: var(--au-orange-500);
+}
+
+.au-c-badge--error {
+  color: var(--au-white);
+  background-color: var(--au-red-600);
+}
+
+/* Badge small modifier */
+.au-c-badge--small {
+  height: 2.4rem; /* $au-unit-large - $au-unit = 4.8 - 2.4 */
+  width: 2.4rem;
+  margin-right: 0;
+}
+
+.au-c-badge--small .au-c-icon {
+  height: 1.4rem; /* $au-badge-small-icon-size - 0.1rem */
+  width: 1.5rem;
+}
+
+.au-c-badge--small .au-c-badge__number {
+  font-size: 1.3rem;
+}
+
+/* ==========================================================================
+   Card
+   Source: ember-appuniversum/styles/components/_c-card.scss
+   SCSS unit values resolved:
+     $au-unit-tiny  = 0.6rem
+     $au-unit-small = 1.2rem
+     $au-unit       = 2.4rem
+     $au-unit-large = 4.8rem
+   ========================================================================== */
+
+/* --- Base card --- */
+
+.au-c-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--au-white);
+  border: 0.1rem solid var(--au-gray-200);
+  border-radius: var(--au-radius);
+}
+
+.au-c-card--fill {
+  height: 100%;
+}
+
+/* --- Modifiers --- */
+
+.au-c-card--shadow {
+  border: 0;
+  box-shadow:
+    0 1px 3px rgba(51, 51, 50, 0.1),    /* --au-gray-900 = #333332 */
+    0 4px 20px rgba(51, 51, 50, 0.035),
+    0 1px 1px rgba(51, 51, 50, 0.025);
+}
+
+.au-c-card--standout {
+  background-color: var(--au-gray-100);
+  border-color: var(--au-gray-100);
+}
+
+.au-c-card--text-center {
+  text-align: center;
+}
+
+.au-c-card--text-center .au-c-badge {
+  margin-right: 0;
+}
+
+/* --- Flex header --- */
+
+.au-c-card--flex:not(.au-c-card--expandable) .au-c-card__header,
+.au-c-card--flex.au-c-card--expandable .au-c-card__header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+/* Second child (content wrapper) fills remaining space when badge is present */
+.au-c-card--flex:not(.au-c-card--expandable) .au-c-card__header > *:nth-child(2),
+.au-c-card--flex.au-c-card--expandable .au-c-card__header > *:nth-child(2) {
+  flex-grow: 2;
+}
+
+/* Badge loses its bottom margin in flex-row header */
+.au-c-card--flex:not(.au-c-card--expandable) .au-c-card__header .au-c-badge,
+.au-c-card--flex.au-c-card--expandable .au-c-card__header .au-c-badge {
+  margin-bottom: 0;
+}
+
+.au-c-card--flex:not(.au-c-card--expandable) .au-c-card__header {
+  align-items: center;
+}
+
+.au-c-card--flex.au-c-card--expandable .au-c-card__header {
+  align-items: flex-start;
+}
+
+/* --- Sections --- */
+
+/* Badge inside header gets bottom margin in stacked (non-flex) mode */
+.au-c-card__header .au-c-badge {
+  margin-bottom: 1.2rem; /* $au-unit-small */
+}
+
+/* Padding variants */
+.au-c-card--padding .au-c-card__header,
+.au-c-card--padding .au-c-card__content,
+.au-c-card--padding .au-c-card__footer {
+  padding: 2.4rem; /* $au-unit */
+}
+
+.au-c-card--padding-small .au-c-card__header,
+.au-c-card--padding-small .au-c-card__content,
+.au-c-card--padding-small .au-c-card__footer {
+  padding: 1.2rem; /* $au-unit-small */
+}
+
+/*
+  Consecutive sections collapse their top padding unless divided.
+  Expands `& + &` across all three section types (SCSS selector expansion).
+*/
+.au-c-card--padding:not(.au-c-card--divided) .au-c-card__header + .au-c-card__header,
+.au-c-card--padding:not(.au-c-card--divided) .au-c-card__header + .au-c-card__content,
+.au-c-card--padding:not(.au-c-card--divided) .au-c-card__header + .au-c-card__footer,
+.au-c-card--padding:not(.au-c-card--divided) .au-c-card__content + .au-c-card__header,
+.au-c-card--padding:not(.au-c-card--divided) .au-c-card__content + .au-c-card__content,
+.au-c-card--padding:not(.au-c-card--divided) .au-c-card__content + .au-c-card__footer,
+.au-c-card--padding:not(.au-c-card--divided) .au-c-card__footer + .au-c-card__header,
+.au-c-card--padding:not(.au-c-card--divided) .au-c-card__footer + .au-c-card__content,
+.au-c-card--padding:not(.au-c-card--divided) .au-c-card__footer + .au-c-card__footer,
+.au-c-card--padding-small:not(.au-c-card--divided) .au-c-card__header + .au-c-card__header,
+.au-c-card--padding-small:not(.au-c-card--divided) .au-c-card__header + .au-c-card__content,
+.au-c-card--padding-small:not(.au-c-card--divided) .au-c-card__header + .au-c-card__footer,
+.au-c-card--padding-small:not(.au-c-card--divided) .au-c-card__content + .au-c-card__header,
+.au-c-card--padding-small:not(.au-c-card--divided) .au-c-card__content + .au-c-card__content,
+.au-c-card--padding-small:not(.au-c-card--divided) .au-c-card__content + .au-c-card__footer,
+.au-c-card--padding-small:not(.au-c-card--divided) .au-c-card__footer + .au-c-card__header,
+.au-c-card--padding-small:not(.au-c-card--divided) .au-c-card__footer + .au-c-card__content,
+.au-c-card--padding-small:not(.au-c-card--divided) .au-c-card__footer + .au-c-card__footer {
+  padding-top: 0;
+}
+
+/* Shadow expandable: header has no left padding (toggle is flush left) */
+.au-c-card--shadow.au-c-card--expandable .au-c-card__header {
+  padding-left: 0;
+}
+
+/* Content grows to fill available vertical space */
+.au-c-card__content {
+  flex-grow: 1;
+}
+
+.au-c-card__content:focus {
+  outline: none;
+}
+
+/* Divided: border between sections */
+.au-c-card--divided .au-c-card__content,
+.au-c-card--divided .au-c-card__footer {
+  border-top: 0.1rem solid var(--au-gray-200);
+}
+
+.au-c-card--divided.au-c-card--standout .au-c-card__content,
+.au-c-card--divided.au-c-card--standout .au-c-card__footer {
+  border-top-color: var(--au-gray-300);
+}
+
+/* Standout footer */
+.au-c-card--standout .au-c-card__footer {
+  background-color: var(--au-gray-100);
+}
+
+/* --- Expandable --- */
+
+.au-c-card__clickable {
+  display: flex;
+  justify-content: space-between;
+  transition: background-color var(--au-transition);
+  cursor: pointer;
+}
+
+.au-c-card--shadow .au-c-card__clickable {
+  justify-content: flex-start;
+}
+
+.au-c-card__clickable:hover {
+  background-color: var(--au-gray-100);
+}
+
+.au-c-card__clickable .au-c-card__header {
+  width: 100%;
+}
+
+.au-c-card__toggle {
+  flex: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+}
+
+.au-c-card--padding .au-c-card__toggle {
+  margin-top: 2.4rem;
+  margin-right: 2.4rem;
+  margin-bottom: 2.4rem;
+}
+
+.au-c-card--padding-small .au-c-card__toggle {
+  margin-top: 1.2rem;
+  margin-right: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.au-c-card--shadow.au-c-card--padding .au-c-card__toggle,
+.au-c-card--shadow.au-c-card--padding-small .au-c-card__toggle {
+  margin-right: 0;
+}
+
+/* Toggle label visibility (mirrors Ember: show correct label per state) */
+.au-c-card--expandable .au-c-card__toggle[aria-expanded] .au-c-card__toggle-false,
+.au-c-card--expandable .au-c-card__toggle[aria-expanded="true"] .au-c-card__toggle-true {
+  display: none;
+}
+
+.au-c-card--expandable .au-c-card__toggle[aria-expanded="true"] .au-c-card__toggle-false {
+  display: block;
+}
