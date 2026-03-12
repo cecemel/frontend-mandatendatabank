@@ -43,24 +43,33 @@
   'use strict';
 
   /* ==========================================================================
-     Icon registry — inline SVG paths for icons used by this component.
+     Icon loading — SVG files from icons/ directory.
      Source: ember-appuniversum/public/icons/
      ========================================================================== */
 
-  const ICON_PATHS = {
-    'check':    '<polygon points="21.207115 6.353545 8.499995 19.060665 2.792885 13.353565 4.207095 11.939365 8.499995 16.232265 19.792915 4.939335"/>',
-    'download': '<path d="M11,2 L13,2 L13,14.08 L15.29,11.88 L16.7,13.24 L12,17.76 L7.29,13.24 L8.7,11.88 L11,14.08 L11,2 Z M2,20 L22,20 L22,22 L2,22 L2,20 Z"/>',
-    'nav-up':   '<polygon points="19 16.9 12 9.9 5 16.9 3.6 15.5 12 7.1 20.4 15.5"/>',
-    'nav-down': '<polygon points="12 16.9 3.6 8.49999 5 7.1 12 14.1 19 7.1 20.4 8.49999"/>',
-    'add':      '<polygon points="21 11 13 11 13 3 11 3 11 11 3 11 3 13 11 13 11 21 13 21 13 13 21 13"/>',
-    'remove':   '<polygon points="21 11 3 11 3 13 21 13"/>',
-  };
+  const ICON_BASE_URL = (function () {
+    const src = document.currentScript && document.currentScript.src;
+    return src ? src.replace(/\/[^/]+$/, '/icons') : '/web-components/icons';
+  })();
 
-  function makeSvgIcon(name, large = false) {
-    const path = ICON_PATHS[name];
-    if (!path) return '';
+  const _iconCache = Object.create(null);
+
+  function loadIcon(name) {
+    if (!_iconCache[name]) {
+      _iconCache[name] = fetch(`${ICON_BASE_URL}/${name}.svg`)
+        .then(function (r) { return r.text(); })
+        .then(function (text) {
+          return text.replace(/<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+        });
+    }
+    return _iconCache[name];
+  }
+
+  function makeSvgIcon(name, large) {
     const sizeClass = large ? ' au-wc-icon--large' : '';
-    return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="au-wc-icon${sizeClass}" aria-hidden="true">${path}</svg>`;
+    return loadIcon(name).then(function (inner) {
+      return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="au-wc-icon${sizeClass}" aria-hidden="true">${inner}</svg>`;
+    });
   }
 
   /* ==========================================================================
@@ -122,7 +131,7 @@
       if (this.isConnected) this._updateBadge();
     }
 
-    _updateBadge() {
+    async _updateBadge() {
       // Remove previous badge (if any).
       const existing = this.querySelector('.__au-badge');
       if (existing) existing.remove();
@@ -144,7 +153,8 @@
       badge.setAttribute('aria-hidden', 'true');
 
       if (icon) {
-        badge.innerHTML = makeSvgIcon(icon);
+        const svgHtml = await makeSvgIcon(icon);
+        badge.innerHTML = svgHtml;
       } else {
         const num = document.createElement('span');
         num.className = 'au-wc-badge__number';
@@ -153,7 +163,9 @@
       }
 
       // Prepend so badge is :nth-child(1); the template's <div> wrapper lands as :nth-child(2).
-      this.insertBefore(badge, this.firstChild);
+      if (this.isConnected) {
+        this.insertBefore(badge, this.firstChild);
+      }
     }
   }
 
@@ -262,15 +274,16 @@
       toggle.setAttribute('tabindex', '-1');
       toggle.setAttribute('aria-expanded', this._expanded ? 'true' : 'false');
 
-      const updateToggleIcon = () => {
+      const updateToggleIcon = async () => {
         // Shadow cards: add/remove icons (left of header).
         // Regular cards: nav-up/nav-down arrows (right of header).
         const iconName = isShadow
           ? (this._expanded ? 'remove' : 'add')
           : (this._expanded ? 'nav-up' : 'nav-down');
 
+        const svgHtml = await makeSvgIcon(iconName, true);
         toggle.innerHTML = [
-          makeSvgIcon(iconName, true),
+          svgHtml,
           `<span class="au-wc-hidden-visually au-wc-card__toggle-false">Verberg</span>`,
           `<span class="au-wc-hidden-visually au-wc-card__toggle-true">Toon</span>`,
         ].join('');

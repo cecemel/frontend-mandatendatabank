@@ -30,18 +30,30 @@
     return src ? src.replace(/\/[^/]+$/, '/styles.css') : 'web-components/styles.css';
   })();
 
-  /* ---------- Icon registry ---------- */
+  /* ---------- Icon loading ---------- */
 
-  const ICON_PATHS = {
-    'download': '<path d="M11,2 L13,2 L13,14.08 L15.29,11.88 L16.7,13.24 L12,17.76 L7.29,13.24 L8.7,11.88 L11,14.08 L11,2 Z M2,20 L22,20 L22,22 L2,22 L2,20 Z"/>',
-    'mail':     '<path d="M10.5,10.6611 L1.5,2.3958 L1.5,13.5 L19.5,13.5 L19.5,2.3958 L10.5,10.6611 Z M21,15 L0,15 L0,0 L21,0 L21,15 Z M18.2579,1.5 L2.74214,1.5 L10.5,8.6246 L18.2579,1.5 Z" transform="translate(1.5 4.5)" fill-rule="evenodd"/>',
-    'nav-right':'<polygon points="8.499955 20.4 7.099955 19 14.100045 12 7.099955 5 8.499955 3.6 16.900045 12"/>',
-  };
+  const ICON_BASE_URL = (function () {
+    const src = document.currentScript && document.currentScript.src;
+    return src ? src.replace(/\/[^/]+$/, '/icons') : '/web-components/icons';
+  })();
+
+  const _iconCache = Object.create(null);
+
+  function loadIcon(name) {
+    if (!_iconCache[name]) {
+      _iconCache[name] = fetch(`${ICON_BASE_URL}/${name}.svg`)
+        .then(function (r) { return r.text(); })
+        .then(function (text) {
+          return text.replace(/<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+        });
+    }
+    return _iconCache[name];
+  }
 
   function makeSvgIcon(name) {
-    const path = ICON_PATHS[name];
-    if (!path) return '';
-    return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="au-wc-icon" aria-hidden="true">${path}</svg>`;
+    return loadIcon(name).then(function (inner) {
+      return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="au-wc-icon" aria-hidden="true">${inner}</svg>`;
+    });
   }
 
   /* ---------- Skin → CSS class map ---------- */
@@ -82,7 +94,7 @@
       if (this.isConnected) this._render();
     }
 
-    _render() {
+    async _render() {
       const href          = this.getAttribute('href') || '';
       const skin          = this.getAttribute('skin') || 'primary';
       const icon          = this.getAttribute('icon');
@@ -97,7 +109,7 @@
         ? (isButton ? 'au-wc-button--block' : 'au-wc-link--block')
         : '';
 
-      const iconHtml   = icon ? makeSvgIcon(icon) : '';
+      const iconHtml   = icon ? await makeSvgIcon(icon) : '';
       const iconLeft   = icon && iconAlignment !== 'right' ? iconHtml : '';
       const iconRight  = icon && iconAlignment === 'right' ? iconHtml : '';
 
@@ -107,6 +119,8 @@
       const safeHref    = href.replace(/"/g, '&quot;');
 
       const classes = [skinClass, widthClass].filter(Boolean).join(' ');
+
+      if (!this.isConnected) return;
 
       this.shadowRoot.innerHTML = `
         <link rel="stylesheet" href="${STYLES_URL}">
