@@ -13,36 +13,14 @@
  *   number — string/number: numeric content (used when no icon)
  *   size   — string: "small"
  *
+ * Requires: utils.js
+ *
  * Usage:
  *   <au-wc-badge skin="brand" icon="users"></au-wc-badge>
  */
 
 (function () {
   'use strict';
-
-  const ICON_BASE_URL = (function () {
-    const src = document.currentScript && document.currentScript.src;
-    return src ? src.replace(/\/[^/]+$/, '/icons') : '/web-components/icons';
-  })();
-
-  const _iconCache = Object.create(null);
-
-  function loadIcon(name) {
-    if (!_iconCache[name]) {
-      _iconCache[name] = fetch(`${ICON_BASE_URL}/${name}.svg`)
-        .then(function (r) { return r.text(); })
-        .then(function (text) {
-          return text.replace(/<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
-        });
-    }
-    return _iconCache[name];
-  }
-
-  function makeSvgIcon(name) {
-    return loadIcon(name).then(function (inner) {
-      return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="au-wc-icon" aria-hidden="true">${inner}</svg>`;
-    });
-  }
 
   const SKIN_CLASSES = {
     border:  'au-wc-badge--border',
@@ -58,13 +36,9 @@
       return ['skin', 'icon', 'number', 'size'];
     }
 
-    connectedCallback() {
-      this._update();
-    }
+    connectedCallback() { this._update(); }
 
-    attributeChangedCallback() {
-      if (this.isConnected) this._update();
-    }
+    attributeChangedCallback() { if (this.isConnected) this._update(); }
 
     async _update() {
       const skin   = this.getAttribute('skin');
@@ -72,20 +46,17 @@
       const number = this.getAttribute('number');
       const size   = this.getAttribute('size');
 
-      const userClasses = Array.from(this.classList)
-        .filter(c => !c.startsWith('au-wc-badge'));
-
       this.className = [
         'au-wc-badge',
         SKIN_CLASSES[skin] || 'au-wc-badge--default',
         size === 'small' ? 'au-wc-badge--small' : '',
-        ...userClasses,
+        ...AuWc.userClasses(this, 'au-wc-badge'),
       ].filter(Boolean).join(' ');
 
       this.setAttribute('aria-hidden', 'true');
 
       if (icon) {
-        const svgHtml = await makeSvgIcon(icon);
+        const svgHtml = await AuWc.makeSvgIcon(icon);
         if (this.isConnected && this.getAttribute('icon') === icon) {
           this.innerHTML = svgHtml;
         }

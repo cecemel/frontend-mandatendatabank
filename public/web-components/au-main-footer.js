@@ -5,6 +5,8 @@
  * Renders a footer with the Vlaanderen brand (tagline "verbeelding werkt")
  * and a slot for footer content (links, headings, etc.).
  *
+ * Requires: utils.js
+ *
  * Usage:
  *   <au-wc-main-footer>
  *     <au-wc-heading level="2" skin="4">Site title</au-wc-heading>
@@ -15,21 +17,11 @@
 (function () {
   'use strict';
 
-  const STYLES_URL = (function () {
-    const src = document.currentScript && document.currentScript.src;
-    return src ? src.replace(/\/[^/]+$/, '/styles.css') : 'web-components/styles.css';
-  })();
-
-  const ICON_BASE_URL = (function () {
-    const src = document.currentScript && document.currentScript.src;
-    return src ? src.replace(/\/[^/]+$/, '/icons') : '/web-components/icons';
-  })();
-
   function brandHTML() {
     return `
       <div class="au-wc-brand au-wc-brand--tagline">
         <div class="au-wc-brand__logo">
-          <img src="${ICON_BASE_URL}/vlaanderen-logo.svg" alt="Logo Vlaanderen" aria-hidden="true">
+          <img src="${AuWc.iconBaseUrl}/vlaanderen-logo.svg" alt="Logo Vlaanderen" aria-hidden="true">
         </div>
         <p class="au-wc-brand__logotype">
           <span class="au-wc-brand__main">Vlaanderen</span>
@@ -47,7 +39,7 @@
 
     connectedCallback() {
       this.shadowRoot.innerHTML = `
-        <link rel="stylesheet" href="${STYLES_URL}">
+        <link rel="stylesheet" href="${AuWc.stylesUrl}">
         <footer class="au-wc-main-footer">
           <div class="au-wc-main-footer__brand">
             ${brandHTML()}

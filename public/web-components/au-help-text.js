@@ -7,6 +7,8 @@
  * Attributes:
  *   skin — string: "normal" | "large" | "secondary" | "tertiary" | "error" | "warning"
  *
+ * Requires: utils.js
+ *
  * Usage:
  *   <au-wc-help-text>Helper message</au-wc-help-text>
  *   <au-wc-help-text skin="error">Required field</au-wc-help-text>
@@ -16,28 +18,18 @@
   'use strict';
 
   class AuWcHelpText extends HTMLElement {
-    static get observedAttributes() {
-      return ['skin'];
-    }
+    static get observedAttributes() { return ['skin']; }
 
-    connectedCallback() {
-      this._update();
-    }
+    connectedCallback() { this._update(); }
 
-    attributeChangedCallback() {
-      if (this.isConnected) this._update();
-    }
+    attributeChangedCallback() { if (this.isConnected) this._update(); }
 
     _update() {
       const skin = this.getAttribute('skin');
-
-      const userClasses = Array.from(this.classList)
-        .filter(c => !c.startsWith('au-wc-help-text'));
-
       this.className = [
         'au-wc-help-text',
         skin ? `au-wc-help-text--${skin}` : '',
-        ...userClasses,
+        ...AuWc.userClasses(this, 'au-wc-help-text'),
       ].filter(Boolean).join(' ');
     }
   }

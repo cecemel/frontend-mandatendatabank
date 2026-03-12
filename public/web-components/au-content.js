@@ -7,6 +7,8 @@
  * Attributes:
  *   skin — string: "small"
  *
+ * Requires: utils.js
+ *
  * Usage:
  *   <au-wc-content>
  *     <p>Body text</p>
@@ -18,28 +20,18 @@
   'use strict';
 
   class AuWcContent extends HTMLElement {
-    static get observedAttributes() {
-      return ['skin'];
-    }
+    static get observedAttributes() { return ['skin']; }
 
-    connectedCallback() {
-      this._update();
-    }
+    connectedCallback() { this._update(); }
 
-    attributeChangedCallback() {
-      if (this.isConnected) this._update();
-    }
+    attributeChangedCallback() { if (this.isConnected) this._update(); }
 
     _update() {
       const skin = this.getAttribute('skin');
-
-      const userClasses = Array.from(this.classList)
-        .filter(c => !c.startsWith('au-wc-content'));
-
       this.className = [
         'au-wc-content',
         skin ? `au-wc-content--${skin}` : '',
-        ...userClasses,
+        ...AuWc.userClasses(this, 'au-wc-content'),
       ].filter(Boolean).join(' ');
     }
   }
