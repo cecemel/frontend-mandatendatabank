@@ -41,10 +41,17 @@
     attributeChangedCallback() { if (this.isConnected) this._update(); }
 
     async _update() {
+      const seq    = (this._updateSeq = (this._updateSeq || 0) + 1);
       const skin   = this.getAttribute('skin');
       const icon   = this.getAttribute('icon');
       const number = this.getAttribute('number');
       const size   = this.getAttribute('size');
+
+      let svgHtml = null;
+      if (icon) {
+        svgHtml = await AuWc.makeSvgIcon(icon);
+        if (this._updateSeq !== seq || !this.isConnected) return;
+      }
 
       this.className = [
         'au-wc-badge',
@@ -55,11 +62,8 @@
 
       this.setAttribute('aria-hidden', 'true');
 
-      if (icon) {
-        const svgHtml = await AuWc.makeSvgIcon(icon);
-        if (this.isConnected && this.getAttribute('icon') === icon) {
-          this.innerHTML = svgHtml;
-        }
+      if (svgHtml) {
+        this.innerHTML = svgHtml;
       } else if (number) {
         this.innerHTML = `<span class="au-wc-badge__number">${number}</span>`;
       }

@@ -80,13 +80,23 @@
     }
 
     async _updateBadge() {
-      const existing = this.querySelector('.__au-badge');
-      if (existing) existing.remove();
-
+      const seq    = (this._badgeSeq = (this._badgeSeq || 0) + 1);
       const icon   = this.getAttribute('badge-icon');
       const number = this.getAttribute('badge-number');
       const skin   = this.getAttribute('badge-skin');
       const size   = this.getAttribute('badge-size');
+
+      // Fetch the icon before touching the DOM so concurrent calls can race
+      // and the last one wins (stale calls bail out after the await).
+      let svgHtml = null;
+      if (icon) {
+        svgHtml = await AuWc.makeSvgIcon(icon);
+        if (this._badgeSeq !== seq || !this.isConnected) return;
+      }
+
+      // Remove any badge a previous (or concurrent) call may have inserted.
+      const existing = this.querySelector('.__au-badge');
+      if (existing) existing.remove();
 
       if (!icon && !number) return;
 
@@ -99,8 +109,8 @@
       ].filter(Boolean).join(' ');
       badge.setAttribute('aria-hidden', 'true');
 
-      if (icon) {
-        badge.innerHTML = await AuWc.makeSvgIcon(icon);
+      if (svgHtml) {
+        badge.innerHTML = svgHtml;
       } else {
         const num = document.createElement('span');
         num.className = 'au-wc-badge__number';
@@ -108,9 +118,7 @@
         badge.appendChild(num);
       }
 
-      if (this.isConnected) {
-        this.insertBefore(badge, this.firstChild);
-      }
+      this.insertBefore(badge, this.firstChild);
     }
   }
 
