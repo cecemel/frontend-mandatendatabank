@@ -22,29 +22,35 @@
     return src ? src.replace(/\/[^/]+$/, '') : '/web-components';
   })();
 
-  const _stylesUrl   = `${_base}/styles.css`;
+  const _stylesUrl = `${_base}/styles.css`;
   const _iconBaseUrl = `${_base}/icons`;
-  const _iconCache   = Object.create(null);
+  const _iconCache = Object.create(null);
+
+  function fetchIconInnerSvg(name) {
+    return fetch(`${_iconBaseUrl}/${name}.svg`)
+      .then((r) => r.text())
+      .then((text) => text.replace(/<svg[^>]*>/, '').replace(/<\/svg>\s*$/, ''));
+  }
 
   window.AuWc = {
 
-    stylesUrl:   _stylesUrl,
+    stylesUrl: _stylesUrl,
     iconBaseUrl: _iconBaseUrl,
 
     loadIcon(name) {
       if (!_iconCache[name]) {
-        _iconCache[name] = fetch(`${_iconBaseUrl}/${name}.svg`)
-          .then((r) => r.text())
-          .then((text) => text.replace(/<svg[^>]*>/, '').replace(/<\/svg>\s*$/, ''));
+        _iconCache[name] = fetchIconInnerSvg(name);
       }
       return _iconCache[name];
     },
 
     makeSvgIcon(name, large) {
-      const cls = `au-wc-icon${large ? ' au-wc-icon--large' : ''}`;
-      return this.loadIcon(name).then(
-        (inner) => `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="${cls}" aria-hidden="true">${inner}</svg>`
-      );
+      const classes = ['au-wc-icon'];
+      if (large) classes.push('au-wc-icon--large');
+
+      return this.loadIcon(name).then((inner) => {
+        return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="${classes.join(' ')}" aria-hidden="true">${inner}</svg>`;
+      });
     },
 
     boolAttr(el, name) {

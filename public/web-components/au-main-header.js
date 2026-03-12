@@ -41,6 +41,22 @@
     `;
   }
 
+  async function buildContactItemHTML(href, label) {
+    if (!href) return '';
+
+    const iconInner = await AuWc.loadIcon('question-circle');
+    const iconSvg = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="au-wc-icon" aria-hidden="true">${iconInner}</svg>`;
+
+    return `
+      <li>
+        <a href="${AuWc.escape(href)}" class="au-wc-link au-wc-link--secondary">
+          ${iconSvg}
+          ${label}
+        </a>
+      </li>
+    `;
+  }
+
   class AuWcMainHeader extends HTMLElement {
     static get observedAttributes() {
       return ['brand-link', 'home-href', 'app-title', 'contact-href', 'contact-label'];
@@ -56,26 +72,13 @@
     attributeChangedCallback() { if (this.isConnected) this._render(); }
 
     async _render() {
-      const brandLink    = this.getAttribute('brand-link') || '/';
-      const homeHref     = this.getAttribute('home-href') || '/';
-      const appTitle     = AuWc.escape(this.getAttribute('app-title') || '');
-      const contactHref  = this.getAttribute('contact-href');
+      const brandLink = this.getAttribute('brand-link') || '/';
+      const homeHref = this.getAttribute('home-href') || '/';
+      const appTitle = AuWc.escape(this.getAttribute('app-title') || '');
+      const contactHref = this.getAttribute('contact-href');
       const contactLabel = AuWc.escape(this.getAttribute('contact-label') || 'Contacteer ons');
 
-      let contactItem = '';
-      if (contactHref) {
-        const iconInner = await AuWc.loadIcon('question-circle');
-        const iconSvg = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="au-wc-icon" aria-hidden="true">${iconInner}</svg>`;
-        contactItem = `
-          <li>
-            <a href="${AuWc.escape(contactHref)}" class="au-wc-link au-wc-link--secondary">
-              ${iconSvg}
-              ${contactLabel}
-            </a>
-          </li>
-        `;
-      }
-
+      const contactItem = await buildContactItemHTML(contactHref, contactLabel);
       if (!this.isConnected) return;
 
       this.shadowRoot.innerHTML = `

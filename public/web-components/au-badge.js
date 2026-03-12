@@ -23,47 +23,50 @@
   'use strict';
 
   const SKIN_CLASSES = {
-    border:  'au-wc-badge--border',
-    action:  'au-wc-badge--action',
-    brand:   'au-wc-badge--brand',
+    border: 'au-wc-badge--border',
+    action: 'au-wc-badge--action',
+    brand: 'au-wc-badge--brand',
     success: 'au-wc-badge--success',
     warning: 'au-wc-badge--warning',
-    error:   'au-wc-badge--error',
+    error: 'au-wc-badge--error',
   };
+
+  function buildClasses(skin, size, el) {
+    const classes = [
+      'au-wc-badge',
+      SKIN_CLASSES[skin] || 'au-wc-badge--default',
+      ...AuWc.userClasses(el, 'au-wc-badge'),
+    ];
+    if (size === 'small') classes.push('au-wc-badge--small');
+    return classes.join(' ');
+  }
 
   class AuWcBadge extends HTMLElement {
     static get observedAttributes() {
       return ['skin', 'icon', 'number', 'size'];
     }
 
-    connectedCallback() { this._update(); }
+    connectedCallback() { this._scheduleUpdate(); }
 
-    attributeChangedCallback() { if (this.isConnected) this._update(); }
+    attributeChangedCallback() { if (this.isConnected) this._scheduleUpdate(); }
+
+    // Defer rendering so all attributes are set before we read them.
+    _scheduleUpdate() {
+      clearTimeout(this._updateTimer);
+      this._updateTimer = setTimeout(() => this._update(), 0);
+    }
 
     async _update() {
-      const seq    = (this._updateSeq = (this._updateSeq || 0) + 1);
-      const skin   = this.getAttribute('skin');
-      const icon   = this.getAttribute('icon');
+      const skin = this.getAttribute('skin');
+      const icon = this.getAttribute('icon');
       const number = this.getAttribute('number');
-      const size   = this.getAttribute('size');
+      const size = this.getAttribute('size');
 
-      let svgHtml = null;
-      if (icon) {
-        svgHtml = await AuWc.makeSvgIcon(icon);
-        if (this._updateSeq !== seq || !this.isConnected) return;
-      }
-
-      this.className = [
-        'au-wc-badge',
-        SKIN_CLASSES[skin] || 'au-wc-badge--default',
-        size === 'small' ? 'au-wc-badge--small' : '',
-        ...AuWc.userClasses(this, 'au-wc-badge'),
-      ].filter(Boolean).join(' ');
-
+      this.className = buildClasses(skin, size, this);
       this.setAttribute('aria-hidden', 'true');
 
-      if (svgHtml) {
-        this.innerHTML = svgHtml;
+      if (icon) {
+        this.innerHTML = await AuWc.makeSvgIcon(icon);
       } else if (number) {
         this.innerHTML = `<span class="au-wc-badge__number">${number}</span>`;
       }

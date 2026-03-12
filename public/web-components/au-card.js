@@ -23,13 +23,13 @@
  *   </au-wc-card>
  *
  * au-wc-card attributes:
- *   flex          — boolean, row-layout header (badge + content side by side)
- *   divided       — boolean, border between header/content/footer
- *   shadow        — boolean, box-shadow instead of border
- *   standout      — boolean, light-gray background
- *   expandable    — boolean, collapsible card
- *   text-center   — boolean, centered text
- *   size          — string: "small" | "tiny" | "flush" (default: normal padding)
+ *   flex              — boolean, row-layout header (badge + content side by side)
+ *   divided           — boolean, border between header/content/footer
+ *   shadow            — boolean, box-shadow instead of border
+ *   standout          — boolean, light-gray background
+ *   expandable        — boolean, collapsible card
+ *   text-center       — boolean, centered text
+ *   size              — string: "small" | "tiny" | "flush" (default: normal padding)
  *   is-open-initially — boolean, start expanded (only meaningful with expandable)
  *
  * au-wc-card-header attributes:
@@ -49,16 +49,43 @@
      ========================================================================== */
 
   const BADGE_SKIN_CLASSES = {
-    border:  'au-wc-badge--border',
-    action:  'au-wc-badge--action',
-    brand:   'au-wc-badge--brand',
+    border: 'au-wc-badge--border',
+    action: 'au-wc-badge--action',
+    brand: 'au-wc-badge--brand',
     success: 'au-wc-badge--success',
     warning: 'au-wc-badge--warning',
-    error:   'au-wc-badge--error',
+    error: 'au-wc-badge--error',
   };
 
   function badgeSkinClass(skin) {
     return BADGE_SKIN_CLASSES[skin] || 'au-wc-badge--default';
+  }
+
+  /* ==========================================================================
+     Card helpers
+     ========================================================================== */
+
+  function paddingClass(size) {
+    if (size === 'small') return 'au-wc-card--padding-small';
+    if (size === 'tiny') return 'au-wc-card--padding-tiny';
+    if (size === 'flush') return null;
+    return 'au-wc-card--padding';
+  }
+
+  // Returns the CSS class if the boolean attribute is set, otherwise null.
+  function boolClass(el, attr, cls) {
+    return AuWc.boolAttr(el, attr) ? cls : null;
+  }
+
+  function ariaExpanded(isExpanded) {
+    return isExpanded ? 'true' : 'false';
+  }
+
+  function toggleIconName(isShadow, isExpanded) {
+    if (isShadow) {
+      return isExpanded ? 'remove' : 'add';
+    }
+    return isExpanded ? 'nav-up' : 'nav-down';
   }
 
   /* ==========================================================================
@@ -72,53 +99,58 @@
 
     connectedCallback() {
       this.classList.add('au-wc-card__header');
-      this._updateBadge();
+      this._scheduleBadgeUpdate();
     }
 
     attributeChangedCallback() {
-      if (this.isConnected) this._updateBadge();
+      if (this.isConnected) this._scheduleBadgeUpdate();
+    }
+
+    // Ember sets all badge-* attributes in the same synchronous render pass,
+    // which fires attributeChangedCallback once per attribute. Deferring to
+    // the next tick lets all attributes settle before we touch the DOM.
+    _scheduleBadgeUpdate() {
+      clearTimeout(this._badgeTimer);
+      this._badgeTimer = setTimeout(() => this._updateBadge(), 0);
     }
 
     async _updateBadge() {
-      const seq    = (this._badgeSeq = (this._badgeSeq || 0) + 1);
-      const icon   = this.getAttribute('badge-icon');
+      const icon = this.getAttribute('badge-icon');
       const number = this.getAttribute('badge-number');
-      const skin   = this.getAttribute('badge-skin');
-      const size   = this.getAttribute('badge-size');
+      const skin = this.getAttribute('badge-skin');
+      const size = this.getAttribute('badge-size');
 
-      // Fetch the icon before touching the DOM so concurrent calls can race
-      // and the last one wins (stale calls bail out after the await).
-      let svgHtml = null;
-      if (icon) {
-        svgHtml = await AuWc.makeSvgIcon(icon);
-        if (this._badgeSeq !== seq || !this.isConnected) return;
-      }
-
-      // Remove any badge a previous (or concurrent) call may have inserted.
       const existing = this.querySelector('.__au-badge');
       if (existing) existing.remove();
 
       if (!icon && !number) return;
 
-      const badge = document.createElement('span');
-      badge.className = [
-        'au-wc-badge',
-        badgeSkinClass(skin),
-        size === 'small' ? 'au-wc-badge--small' : '',
-        '__au-badge',
-      ].filter(Boolean).join(' ');
-      badge.setAttribute('aria-hidden', 'true');
+      const badge = this._buildBadgeElement(skin, size);
 
-      if (svgHtml) {
-        badge.innerHTML = svgHtml;
+      if (icon) {
+        badge.innerHTML = await AuWc.makeSvgIcon(icon);
+        if (!this.isConnected) return;
       } else {
-        const num = document.createElement('span');
-        num.className = 'au-wc-badge__number';
-        num.textContent = number;
-        badge.appendChild(num);
+        badge.appendChild(this._buildNumberSpan(number));
       }
 
       this.insertBefore(badge, this.firstChild);
+    }
+
+    _buildBadgeElement(skin, size) {
+      const badge = document.createElement('span');
+      const classes = ['au-wc-badge', badgeSkinClass(skin), '__au-badge'];
+      if (size === 'small') classes.push('au-wc-badge--small');
+      badge.className = classes.join(' ');
+      badge.setAttribute('aria-hidden', 'true');
+      return badge;
+    }
+
+    _buildNumberSpan(number) {
+      const span = document.createElement('span');
+      span.className = 'au-wc-badge__number';
+      span.textContent = number;
+      return span;
     }
   }
 
@@ -157,20 +189,16 @@
     }
 
     _updateClasses() {
-      const size = this.getAttribute('size');
       this.className = [
         'au-wc-card',
         'au-wc-card--fill',
-        size === 'small' ? 'au-wc-card--padding-small'
-          : size === 'tiny'  ? 'au-wc-card--padding-tiny'
-          : size === 'flush' ? null
-          : 'au-wc-card--padding',
-        AuWc.boolAttr(this, 'flex')        ? 'au-wc-card--flex'        : null,
-        AuWc.boolAttr(this, 'expandable')  ? 'au-wc-card--expandable'  : null,
-        AuWc.boolAttr(this, 'shadow')      ? 'au-wc-card--shadow'      : null,
-        AuWc.boolAttr(this, 'divided')     ? 'au-wc-card--divided'     : null,
-        AuWc.boolAttr(this, 'text-center') ? 'au-wc-card--text-center' : null,
-        AuWc.boolAttr(this, 'standout')    ? 'au-wc-card--standout'    : null,
+        paddingClass(this.getAttribute('size')),
+        boolClass(this, 'flex', 'au-wc-card--flex'),
+        boolClass(this, 'expandable', 'au-wc-card--expandable'),
+        boolClass(this, 'shadow', 'au-wc-card--shadow'),
+        boolClass(this, 'divided', 'au-wc-card--divided'),
+        boolClass(this, 'text-center', 'au-wc-card--text-center'),
+        boolClass(this, 'standout', 'au-wc-card--standout'),
         ...AuWc.userClasses(this, 'au-wc-card'),
       ].filter(Boolean).join(' ');
     }
@@ -182,50 +210,44 @@
       this._expanded = AuWc.boolAttr(this, 'is-open-initially');
       const isShadow = AuWc.boolAttr(this, 'shadow');
 
-      const header  = this.querySelector('au-wc-card-header');
+      const header = this.querySelector('au-wc-card-header');
       const content = this.querySelector('au-wc-card-content');
       if (!header) return;
 
-      const clickable = document.createElement('div');
-      clickable.className = 'au-wc-card__clickable';
-      clickable.setAttribute('role', 'button');
-      clickable.setAttribute('tabindex', '0');
+      const toggle = this._buildToggleButton();
+      const clickable = this._buildClickableWrapper(isShadow, header, toggle);
 
+      this._updateToggleIcon(toggle, isShadow);
+
+      clickable.addEventListener('click', () => {
+        this._handleToggle(toggle, content, isShadow);
+      });
+
+      clickable.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this._handleToggle(toggle, content, isShadow);
+        }
+      });
+
+      this.insertBefore(clickable, this.firstChild);
+      if (content) content.hidden = !this._expanded;
+    }
+
+    _buildToggleButton() {
       const toggle = document.createElement('button');
       toggle.className = 'au-wc-card__toggle';
       toggle.setAttribute('aria-hidden', 'true');
       toggle.setAttribute('tabindex', '-1');
-      toggle.setAttribute('aria-expanded', this._expanded ? 'true' : 'false');
+      toggle.setAttribute('aria-expanded', ariaExpanded(this._expanded));
+      return toggle;
+    }
 
-      const updateToggleIcon = async () => {
-        const iconName = isShadow
-          ? (this._expanded ? 'remove' : 'add')
-          : (this._expanded ? 'nav-up' : 'nav-down');
-        const svgHtml = await AuWc.makeSvgIcon(iconName, true);
-        toggle.innerHTML = [
-          svgHtml,
-          `<span class="au-wc-hidden-visually au-wc-card__toggle-false">Verberg</span>`,
-          `<span class="au-wc-hidden-visually au-wc-card__toggle-true">Toon</span>`,
-        ].join('');
-      };
-
-      updateToggleIcon();
-
-      const handleToggle = () => {
-        this._expanded = !this._expanded;
-        toggle.setAttribute('aria-expanded', this._expanded ? 'true' : 'false');
-        updateToggleIcon();
-        if (content) content.hidden = !this._expanded;
-        this.dispatchEvent(new CustomEvent('au-wc-card-toggle', {
-          detail: { expanded: this._expanded },
-          bubbles: true,
-        }));
-      };
-
-      clickable.addEventListener('click', handleToggle);
-      clickable.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleToggle(); }
-      });
+    _buildClickableWrapper(isShadow, header, toggle) {
+      const clickable = document.createElement('div');
+      clickable.className = 'au-wc-card__clickable';
+      clickable.setAttribute('role', 'button');
+      clickable.setAttribute('tabindex', '0');
 
       if (isShadow) {
         clickable.appendChild(toggle);
@@ -235,8 +257,28 @@
         clickable.appendChild(toggle);
       }
 
-      this.insertBefore(clickable, this.firstChild);
+      return clickable;
+    }
+
+    async _updateToggleIcon(toggle, isShadow) {
+      const iconName = toggleIconName(isShadow, this._expanded);
+      const svgHtml = await AuWc.makeSvgIcon(iconName, true);
+      toggle.innerHTML = [
+        svgHtml,
+        `<span class="au-wc-hidden-visually au-wc-card__toggle-false">Verberg</span>`,
+        `<span class="au-wc-hidden-visually au-wc-card__toggle-true">Toon</span>`,
+      ].join('');
+    }
+
+    _handleToggle(toggle, content, isShadow) {
+      this._expanded = !this._expanded;
+      toggle.setAttribute('aria-expanded', ariaExpanded(this._expanded));
+      this._updateToggleIcon(toggle, isShadow);
       if (content) content.hidden = !this._expanded;
+      this.dispatchEvent(new CustomEvent('au-wc-card-toggle', {
+        detail: { expanded: this._expanded },
+        bubbles: true,
+      }));
     }
   }
 
@@ -244,9 +286,9 @@
      Register custom elements
      ========================================================================== */
 
-  customElements.define('au-wc-card',         AuCard);
-  customElements.define('au-wc-card-header',  AuCardHeader);
+  customElements.define('au-wc-card', AuCard);
+  customElements.define('au-wc-card-header', AuCardHeader);
   customElements.define('au-wc-card-content', AuCardContent);
-  customElements.define('au-wc-card-footer',  AuCardFooter);
+  customElements.define('au-wc-card-footer', AuCardFooter);
 
 })();

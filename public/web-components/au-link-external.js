@@ -27,13 +27,40 @@
   'use strict';
 
   const SKIN_MAP = {
-    'primary':          'au-wc-link',
-    'secondary':        'au-wc-link au-wc-link--secondary',
-    'bold':             'au-wc-link au-wc-link--bold',
-    'button':           'au-wc-button au-wc-button--primary',
+    'primary': 'au-wc-link',
+    'secondary': 'au-wc-link au-wc-link--secondary',
+    'bold': 'au-wc-link au-wc-link--bold',
+    'button': 'au-wc-button au-wc-button--primary',
     'button-secondary': 'au-wc-button au-wc-button--secondary',
-    'button-naked':     'au-wc-button au-wc-button--naked',
+    'button-naked': 'au-wc-button au-wc-button--naked',
   };
+
+  function blockWidthClass(width, isButton) {
+    if (width !== 'block') return '';
+    return isButton ? 'au-wc-button--block' : 'au-wc-link--block';
+  }
+
+  function buildAnchorAttributes(newTab, isDownload) {
+    const attrs = [];
+    if (newTab) {
+      attrs.push('target="_blank"');
+      attrs.push('rel="noopener noreferrer"');
+    }
+    if (isDownload) {
+      attrs.push('download');
+    }
+    return attrs.join(' ');
+  }
+
+  function placeIcon(iconHtml, alignment) {
+    if (!iconHtml) {
+      return { left: '', right: '' };
+    }
+    if (alignment === 'right') {
+      return { left: '', right: iconHtml };
+    }
+    return { left: iconHtml, right: '' };
+  }
 
   class AuWcLinkExternal extends HTMLElement {
     static get observedAttributes() {
@@ -50,35 +77,27 @@
     attributeChangedCallback() { if (this.isConnected) this._render(); }
 
     async _render() {
-      const href          = this.getAttribute('href') || '';
-      const skin          = this.getAttribute('skin') || 'primary';
-      const icon          = this.getAttribute('icon');
+      const href = this.getAttribute('href') || '';
+      const skin = this.getAttribute('skin') || 'primary';
+      const iconName = this.getAttribute('icon');
       const iconAlignment = this.getAttribute('icon-alignment') || 'left';
-      const newTab        = !this.hasAttribute('new-tab') || AuWc.boolAttr(this, 'new-tab');
-      const width         = this.getAttribute('width');
-      const isDownload    = this.hasAttribute('download');
+      const newTab = !this.hasAttribute('new-tab') || AuWc.boolAttr(this, 'new-tab');
+      const width = this.getAttribute('width');
+      const isDownload = this.hasAttribute('download');
 
-      const skinClass  = SKIN_MAP[skin] || 'au-wc-link';
-      const isButton   = skin.startsWith('button');
-      const widthClass = width === 'block'
-        ? (isButton ? 'au-wc-button--block' : 'au-wc-link--block')
-        : '';
+      const isButton = skin.startsWith('button');
+      const skinClass = SKIN_MAP[skin] || 'au-wc-link';
+      const classes = [skinClass, blockWidthClass(width, isButton)].filter(Boolean).join(' ');
 
-      const iconHtml  = icon ? await AuWc.makeSvgIcon(icon) : '';
-      const iconLeft  = icon && iconAlignment !== 'right' ? iconHtml : '';
-      const iconRight = icon && iconAlignment === 'right' ? iconHtml : '';
-
+      const iconHtml = iconName ? await AuWc.makeSvgIcon(iconName) : '';
       if (!this.isConnected) return;
 
-      const classes      = [skinClass, widthClass].filter(Boolean).join(' ');
-      const targetAttr   = newTab ? ' target="_blank"' : '';
-      const relAttr      = newTab ? ' rel="noopener noreferrer"' : '';
-      const downloadAttr = isDownload ? ' download' : '';
-      const safeHref     = AuWc.escape(href);
+      const icon = placeIcon(iconHtml, iconAlignment);
+      const anchorAttrs = buildAnchorAttributes(newTab, isDownload);
 
       this.shadowRoot.innerHTML = `
         <link rel="stylesheet" href="${AuWc.stylesUrl}">
-        <a class="${classes}" href="${safeHref}"${targetAttr}${relAttr}${downloadAttr}>${iconLeft}<slot></slot>${iconRight}</a>
+        <a class="${classes}" href="${AuWc.escape(href)}" ${anchorAttrs}>${icon.left}<slot></slot>${icon.right}</a>
       `;
     }
   }

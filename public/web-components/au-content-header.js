@@ -23,6 +23,17 @@
 (function () {
   'use strict';
 
+  function sectionClasses(pictureSize) {
+    const classes = ['au-wc-content-header'];
+    if (pictureSize === 'large') classes.push('au-wc-content-header--large');
+    return classes.join(' ');
+  }
+
+  function titleSpan(cssClass, text) {
+    if (!text) return '';
+    return `<span class="${cssClass}">${text}</span>`;
+  }
+
   class AuWcContentHeader extends HTMLElement {
     static get observedAttributes() {
       return ['title-part-one', 'title-part-two', 'picture-size'];
@@ -38,21 +49,21 @@
     attributeChangedCallback() { if (this.isConnected) this._render(); }
 
     _render() {
-      const titleOne    = AuWc.escape(this.getAttribute('title-part-one') || '');
-      const titleTwo    = AuWc.escape(this.getAttribute('title-part-two') || '');
-      const largeClass  = this.getAttribute('picture-size') === 'large' ? ' au-wc-content-header--large' : '';
+      const titleOne  = AuWc.escape(this.getAttribute('title-part-one') || '');
+      const titleTwo  = AuWc.escape(this.getAttribute('title-part-two') || '');
+      const picSize   = this.getAttribute('picture-size');
 
       this.shadowRoot.innerHTML = `
         <link rel="stylesheet" href="${AuWc.stylesUrl}">
-        <section aria-label="pagina introductie" class="au-wc-content-header${largeClass}">
+        <section aria-label="pagina introductie" class="${sectionClasses(picSize)}">
           <picture class="au-wc-content-header__bg">
             <slot></slot>
           </picture>
           <div class="au-wc-content-header__wrapper">
             <div class="au-wc-layout">
-              ${titleOne ? `<span class="au-wc-content-header__top">${titleOne}</span>` : ''}
+              ${titleSpan('au-wc-content-header__top', titleOne)}
               <br>
-              ${titleTwo ? `<span class="au-wc-content-header__bottom">${titleTwo}</span>` : ''}
+              ${titleSpan('au-wc-content-header__bottom', titleTwo)}
             </div>
           </div>
         </section>

@@ -25,12 +25,10 @@
     attributeChangedCallback() { if (this.isConnected) this._update(); }
 
     _update() {
-      const skin = this.getAttribute('skin');
-      this.className = [
-        'au-wc-help-text',
-        skin ? `au-wc-help-text--${skin}` : '',
-        ...AuWc.userClasses(this, 'au-wc-help-text'),
-      ].filter(Boolean).join(' ');
+      const skin    = this.getAttribute('skin');
+      const classes = ['au-wc-help-text', ...AuWc.userClasses(this, 'au-wc-help-text')];
+      if (skin) classes.push(`au-wc-help-text--${skin}`);
+      this.className = classes.join(' ');
     }
   }
 

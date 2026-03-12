@@ -27,12 +27,10 @@
     attributeChangedCallback() { if (this.isConnected) this._update(); }
 
     _update() {
-      const skin = this.getAttribute('skin');
-      this.className = [
-        'au-wc-content',
-        skin ? `au-wc-content--${skin}` : '',
-        ...AuWc.userClasses(this, 'au-wc-content'),
-      ].filter(Boolean).join(' ');
+      const skin    = this.getAttribute('skin');
+      const classes = ['au-wc-content', ...AuWc.userClasses(this, 'au-wc-content')];
+      if (skin) classes.push(`au-wc-content--${skin}`);
+      this.className = classes.join(' ');
     }
   }
 

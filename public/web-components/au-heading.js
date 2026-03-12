@@ -25,17 +25,13 @@
     attributeChangedCallback() { if (this.isConnected) this._update(); }
 
     _update() {
-      const level = this.getAttribute('level') || '1';
-      const skin  = this.getAttribute('skin') || level;
+      const level   = this.getAttribute('level') || '1';
+      const skin    = this.getAttribute('skin') || level;
+      const classes = ['au-wc-heading', `au-wc-heading--${skin}`, ...AuWc.userClasses(this, 'au-wc-heading')];
 
       this.setAttribute('role', 'heading');
       this.setAttribute('aria-level', level);
-
-      this.className = [
-        'au-wc-heading',
-        `au-wc-heading--${skin}`,
-        ...AuWc.userClasses(this, 'au-wc-heading'),
-      ].join(' ');
+      this.className = classes.join(' ');
     }
   }
 
