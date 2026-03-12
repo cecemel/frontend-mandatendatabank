@@ -1,26 +1,25 @@
 {{! We're not using the AuCard component here, since they can't be nested without causing styling issues in Appuniversum}}
 <div class="organisation-card {{if @isSelected 'organisation-card--selected'}}">
   <div class="organisation-card__header">
-    <AuBadge @skin="brand" @icon="users" class="organisation-card__icon" />
+    <au-wc-badge skin="brand" icon="users" class="organisation-card__icon"></au-wc-badge>
     <div>
-      <AuHeading @level="2" @skin="4">
+      <au-wc-heading level="2" skin="4">
         {{@name}}
-      </AuHeading>
+      </au-wc-heading>
     </div>
   </div>
   <div class="organisation-card__content">
   {{#if (has-block "button")}}
     {{yield to="button"}}
   {{else}}
-    <AuButton
-      @width="block"
-      @size="large"
-      @skin="secondary"
-      @disabled={{@isSelected}}
+    <button
+      class="au-wc-button au-wc-button--secondary au-wc-button--block au-wc-button--large {{if @isSelected 'is-disabled'}}"
+      type="button"
+      disabled={{@isSelected}}
       {{on "click" (fn this.select @organisationId)}}
     >
       Kies {{@classification}}
-    </AuButton>
+    </button>
   {{/if}}
   </div>
 </div>

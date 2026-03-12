@@ -1,38 +1,41 @@
 {{page-title "Mandatendatabank Vlaanderen"}}
 
-<AuModalContainer />
+<au-wc-modal-container></au-wc-modal-container>
 
-<AuMainHeader @brandLink="https://mandaten.lokaalbestuur.vlaanderen.be/" @homeRoute="index" @appTitle="Mandatendatabank" @contactRoute="contact">
-</AuMainHeader>
+<au-wc-main-header
+  brand-link="https://mandaten.lokaalbestuur.vlaanderen.be/"
+  home-href="/"
+  app-title="Mandatendatabank"
+  contact-href="/contact"
+></au-wc-main-header>
 
 <div class="au-c-main-container" id="main">
   <div class="au-c-main-container__content au-c-main-container__content--scroll">
     <main id="content">
       {{outlet}}
     </main>
-    <AuMainFooter>
-
-      <AuHeading @level="2" @skin="4">
+    <au-wc-main-footer>
+      <au-wc-heading level="2" skin="4">
         mandaten.lokaalbestuur.vlaanderen.be is een officiële website van de Vlaamse overheid
-      </AuHeading>
-      <AuContent @skin="small">
+      </au-wc-heading>
+      <au-wc-content skin="small">
         <p>Uitgegeven door
-          <AuLinkExternal href="https://www.vlaanderen.be/organisaties/administratieve-diensten-van-de-vlaamse-overheid/beleidsdomein-kanselarij-en-bestuur/agentschap-binnenlands-bestuur">
+          <au-wc-link-external href="https://www.vlaanderen.be/organisaties/administratieve-diensten-van-de-vlaamse-overheid/beleidsdomein-kanselarij-en-bestuur/agentschap-binnenlands-bestuur">
             Agentschap Binnenlands Bestuur
-          </AuLinkExternal>
+          </au-wc-link-external>
         </p>
         <ul class="au-c-list-horizontal">
           <li class="au-c-list-horizontal__item">
-            <AuLink @route="legaal.disclaimer" @skin="secondary">Disclaimer</AuLink>
+            <LinkTo @route="legaal.disclaimer" class="au-wc-link au-wc-link--secondary">Disclaimer</LinkTo>
           </li>
           <li class="au-c-list-horizontal__item">
-            <AuLink @route="legaal.cookieverklaring" @skin="secondary">Cookieverklaring</AuLink>
+            <LinkTo @route="legaal.cookieverklaring" class="au-wc-link au-wc-link--secondary">Cookieverklaring</LinkTo>
           </li>
           <li class="au-c-list-horizontal__item">
-            <AuLink @route="legaal.toegankelijkheidsverklaring" @skin="secondary">Toegankelijkheid</AuLink>
+            <LinkTo @route="legaal.toegankelijkheidsverklaring" class="au-wc-link au-wc-link--secondary">Toegankelijkheid</LinkTo>
           </li>
         </ul>
-      </AuContent>
-    </AuMainFooter>
+      </au-wc-content>
+    </au-wc-main-footer>
   </div>
 </div>

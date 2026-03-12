@@ -2,13 +2,14 @@
 <div data-tabs-responsive-label="Navigatie">
   <div class="au-o-region-small au-u-background-gray-100">
     <div class="au-o-box">
-      <AuLink @route="index" @icon="nav-left" class="au-u-margin-bottom">
+      <LinkTo @route="index" class="au-wc-link au-u-margin-bottom">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="au-wc-icon" aria-hidden="true"><polygon points="15.5 20.4 7.1 12 15.5 3.6 16.9 5 9.9 12 16.9 19"/></svg>
         Terug naar zoeken
-      </AuLink>
+      </LinkTo>
       <WithRdfaContext @tagName="div" @model={{this.model}} as |ctx|>
         <div class="au-o-grid">
           <div class="au-o-grid__item au-u-1-1 au-u-1-2@small au-u-2-3@medium">
-            <AuHeading @level="1" @skin="2" class="au-u-margin-bottom-small">
+            <au-wc-heading level="1" skin="2" class="au-u-margin-bottom-small">
               Orgaan:
               <ctx.get @prop="naam" as |attributes naam|>
                 <span property={{attributes.property}}>
@@ -19,7 +20,7 @@
                   {{/if}}
                 </span>
               </ctx.get>
-            </AuHeading>
+            </au-wc-heading>
             <div class="au-u-hidden-visually">
               <ctx.each @prop="bevat"/>
             </div>

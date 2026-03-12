@@ -1,40 +1,53 @@
-<AuContentHeader @titlePartOne="Vlaanderen" @titlePartTwo="mandatendatabank" @pictureSize="large">
+<au-wc-content-header title-part-one="Vlaanderen" title-part-two="mandatendatabank" picture-size="large">
   <img sizes="50vw" src="/assets/images/loket-header-1600-85a5251e74ef6ac8491b2f228d2c90da.jpg" srcset="/assets/images/banner-bruges-320.jpg 320w, /assets/images/banner-bruges-1024.jpg 1024w, /assets/images/banner-bruges-1600.jpg 1600w" alt="">
-</AuContentHeader>
+</au-wc-content-header>
 
 <div class="au-o-layout">
   <div class="au-o-region-large">
-    <AuHeading @level="1" @skin="2" class="au-u-margin-bottom-small">
+    <au-wc-heading level="1" skin="2" class="au-u-margin-bottom-small">
       Contact
-    </AuHeading>
+    </au-wc-heading>
 
     <form class="au-c-form au-u-margin-bottom-large">
-      <AuFieldset as |f|>
-        <f.legend>
+      <fieldset class="au-wc-fieldset">
+        <legend class="au-wc-fieldset-legend">
           Waar gaat uw bericht over?
-        </f.legend>
-        <f.content>
-          <AuRadioGroup
-            @name="contact-subject"
-            @onChange={{fn (mut this.mailto)}}
-            as |Group|
-          >
-            <Group.Radio @value="LoketLokaalBestuur@vlaanderen.be">
+        </legend>
+        <div class="au-wc-fieldset-content">
+          <div class="au-wc-radio-group">
+            <label class="au-wc-radio">
+              <input
+                type="radio"
+                name="contact-subject"
+                value="LoketLokaalBestuur@vlaanderen.be"
+                {{on "change" (fn (mut this.mailto) "LoketLokaalBestuur@vlaanderen.be")}}
+              >
+              <span class="au-wc-radio__indicator"></span>
               Een functionaliteit, bug of probleem
-            </Group.Radio>
-            <Group.Radio @value="binnenland@vlaanderen.be">
+            </label>
+            <label class="au-wc-radio">
+              <input
+                type="radio"
+                name="contact-subject"
+                value="binnenland@vlaanderen.be"
+                {{on "change" (fn (mut this.mailto) "binnenland@vlaanderen.be")}}
+              >
+              <span class="au-wc-radio__indicator"></span>
               Een inhoudelijke vraag over mandaten en mandatarissen
-            </Group.Radio>
-          </AuRadioGroup>
-        </f.content>
-      </AuFieldset>
+            </label>
+          </div>
+        </div>
+      </fieldset>
 
       {{#if this.mailto}}
-        <AuLinkExternal @icon="mail" @skin="button" href="mailto:{{this.mailto}}">
+        <au-wc-link-external icon="mail" skin="button" href="mailto:{{this.mailto}}">
           Bericht versturen
-        </AuLinkExternal>
+        </au-wc-link-external>
       {{else}}
-        <AuButton @icon="mail" @disabled={{true}}>Bericht versturen</AuButton>
+        <button class="au-wc-button au-wc-button--primary is-disabled" disabled type="button">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="au-wc-icon" aria-hidden="true"><path d="M10.5,10.6611 L1.5,2.3958 L1.5,13.5 L19.5,13.5 L19.5,2.3958 L10.5,10.6611 Z M21,15 L0,15 L0,0 L21,0 L21,15 Z M18.2579,1.5 L2.74214,1.5 L10.5,8.6246 L18.2579,1.5 Z" transform="translate(1.5 4.5)" fill-rule="evenodd"/></svg>
+          Bericht versturen
+        </button>
       {{/if}}
     </form>
   </div>

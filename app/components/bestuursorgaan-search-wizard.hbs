@@ -2,9 +2,9 @@
   <au-wc-card flex id="bestuursorgaan-search-wizard-step-1" class="bestuursorgaan-search-wizard-scroll-offset">
     <au-wc-card-header badge-skin={{if this.werkingsgebied "success" "action"}} badge-icon={{if this.werkingsgebied "check"}} badge-number={{unless this.werkingsgebied "1"}}>
       <div>
-        <AuHeading @level="2" @skin="4" id="describe-search">
+        <au-wc-heading level="2" skin="4" id="describe-search">
           Stap 1: Zoek een gemeente, provincie of district.
-        </AuHeading>
+        </au-wc-heading>
       </div>
     </au-wc-card-header>
     <au-wc-card-content>
@@ -24,7 +24,7 @@
           {{gebied.longName}}
         </PowerSelect>
       </div>
-      <AuHelpText>Oost-Vlaanderen, Berchem, Hasselt, ...</AuHelpText>
+      <au-wc-help-text>Oost-Vlaanderen, Berchem, Hasselt, ...</au-wc-help-text>
     </au-wc-card-content>
   </au-wc-card>
 
@@ -33,9 +33,9 @@
       badge-number={{unless this.bestuursorganen "2"}}
       badge-skin={{if this.bestuursorganen "success" "action"}}>
       <div>
-        <AuHeading @level="2" @skin="4">
+        <au-wc-heading level="2" skin="4">
           Stap 2: Kies een bestuurseenheid
-        </AuHeading>
+        </au-wc-heading>
         {{#unless this.werkingsgebied}}
         <p>Kies eerst een gemeente, provincie of district.</p>
         {{/unless}}
@@ -43,7 +43,7 @@
     </au-wc-card-header>
     {{#if @isLoadingBestuurseenheden}}
       <au-wc-card-content>
-        <AuLoader class="au-u-margin-bottom-huge">Bestuurseenheden aan het laden</AuLoader>
+        <au-wc-loader class="au-u-margin-bottom-huge">Bestuurseenheden aan het laden</au-wc-loader>
       </au-wc-card-content>
     {{else if this.werkingsgebied}}
       <au-wc-card-content>
@@ -67,9 +67,9 @@
   <au-wc-card flex id="bestuursorgaan-search-wizard-step-3" class="bestuursorgaan-search-wizard-scroll-offset">
     <au-wc-card-header badge-number="3" badge-skin="action">
       <div>
-        <AuHeading @level="2" @skin="4">
+        <au-wc-heading level="2" skin="4">
           Stap 3: Kies een bestuursorgaan
-        </AuHeading>
+        </au-wc-heading>
         {{#unless this.bestuursorganen}}
         <p>Kies eerst een bestuurseenheid.</p>
         {{/unless}}
@@ -77,7 +77,7 @@
     </au-wc-card-header>
     {{#if @isLoadingBestuursorganen}}
       <au-wc-card-content>
-        <AuLoader class="au-u-margin-bottom-huge">Bestuursorganen aan het laden</AuLoader>
+        <au-wc-loader class="au-u-margin-bottom-huge">Bestuursorganen aan het laden</au-wc-loader>
       </au-wc-card-content>
     {{else if this.bestuursorganen}}
       <au-wc-card-content>
@@ -88,18 +88,13 @@
                 @name={{orgaan.naam}}
               >
                 <:button>
-                  <AuLink
+                  <LinkTo
                     @route="bestuursorgaan.subject"
                     @model={{orgaan.id}}
-                    @skin="button"
-                    @icon="nav-right"
-                    @iconAlignment="right"
-                    @size="large"
-                    @width="block"
-                    class="au-c-button--large au-c-button--wrap" {{!TODO: remove this once the link component supports a "large" button style}}
+                    class="au-wc-button au-wc-button--primary au-wc-button--large au-wc-button--block au-wc-button--wrap"
                   >
                     Kies {{orgaan.classificatie.label}}
-                  </AuLink>
+                  </LinkTo>
                 </:button>
               </OrganisationCard>
             </div>

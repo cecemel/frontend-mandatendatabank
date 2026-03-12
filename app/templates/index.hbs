@@ -1,10 +1,10 @@
-<AuContentHeader @titlePartOne="Vlaanderen" @titlePartTwo="mandatendatabank" @pictureSize="large">
+<au-wc-content-header title-part-one="Vlaanderen" title-part-two="mandatendatabank" picture-size="large">
   <img sizes="50vw" src="/assets/images/loket-header-1600-85a5251e74ef6ac8491b2f228d2c90da.jpg" srcset="/assets/images/banner-bruges-320.jpg 320w, /assets/images/banner-bruges-1024.jpg 1024w, /assets/images/banner-bruges-1600.jpg 1600w" alt="">
-</AuContentHeader>
+</au-wc-content-header>
 
 <div class="au-o-layout">
   <div class="au-o-region-large">
-    <AuHeading @level="1" @skin="2" class="au-u-margin-bottom">Bekijk de mandaten in een bestuur</AuHeading>
+    <au-wc-heading level="1" skin="2" class="au-u-margin-bottom">Bekijk de mandaten in een bestuur</au-wc-heading>
     <BestuursorgaanSearchWizard
       @model={{this.model}}
       @searchTask={{this.searchWerkingsgebied}}
@@ -18,10 +18,10 @@
   </div>
 
   <div class="au-o-region-large">
-    <AuHeading @level="1" @skin="2" class="au-u-margin-bottom-tiny">Download mandatendatabank</AuHeading>
+    <au-wc-heading level="1" skin="2" class="au-u-margin-bottom-tiny">Download mandatendatabank</au-wc-heading>
     <p class="au-u-margin-bottom-large">Overzicht van alle besturen in de huidige bestuursperiode.</p>
     <DownloadMiniatures/>
     <p>Mail naar
-      <AuLinkExternal href="mailto:LoketLokaalBestuur@vlaanderen.be">LoketLokaalBestuur@vlaanderen.be</AuLinkExternal> voor meer informatie.</p>
+      <au-wc-link-external href="mailto:LoketLokaalBestuur@vlaanderen.be">LoketLokaalBestuur@vlaanderen.be</au-wc-link-external> voor meer informatie.</p>
   </div>
 </div>
