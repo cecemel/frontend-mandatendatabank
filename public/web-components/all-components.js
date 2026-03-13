@@ -4,6 +4,7 @@
  * Each import registers its custom element(s) as a side effect.
  */
 
+import './au-button.js';
 import './au-card.js';
 import './au-heading.js';
 import './au-help-text.js';

@@ -12,14 +12,15 @@
   {{#if (has-block "button")}}
     {{yield to="button"}}
   {{else}}
-    <button
-      class="au-wc-button au-wc-button--secondary au-wc-button--block au-wc-button--large {{if @isSelected 'is-disabled'}}"
-      type="button"
+    <au-wc-button
+      skin="secondary"
+      width="block"
+      size="large"
       disabled={{@isSelected}}
       {{on "click" (fn this.select @organisationId)}}
     >
       Kies {{@classification}}
-    </button>
+    </au-wc-button>
   {{/if}}
   </div>
 </div>
