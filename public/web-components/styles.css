@@ -1,0 +1,1361 @@
+/* ==========================================================================
+   Appuniversum Web Components — Shared Styles
+   Design tokens + component CSS extracted from ember-appuniversum.
+
+   Inject once in your HTML head:
+     <link rel="stylesheet" href="/web-components/styles.css">
+   ========================================================================== */
+
+/* ==========================================================================
+   Design Tokens (CSS custom properties)
+   Source: ember-appuniversum/styles/settings/_s-root.scss
+   ========================================================================== */
+
+:root {
+  /* Colors */
+  --au-wc-white: #ffffff;
+  --au-wc-gray-100: #f7f9fc;
+  --au-wc-gray-200: #e8ebee;
+  --au-wc-gray-300: #cfd5dd;
+  --au-wc-gray-400: #afb9c5;
+  --au-wc-gray-500: #8695a8;
+  --au-wc-gray-600: #7f8b99;
+  --au-wc-gray-700: #687483;
+  --au-wc-gray-800: #4f5864;
+  --au-wc-gray-900: #333332;
+  --au-wc-gray-1000: #000000;
+  --au-wc-blue-100: #f4f7fb;
+  --au-wc-blue-200: #e4ebf5;
+  --au-wc-blue-300: #b2ccef;
+  --au-wc-blue-500: #5990de;
+  --au-wc-blue-600: #3779d7;
+  --au-wc-blue-700: #0055cc;
+  --au-wc-blue-800: #004ab2;
+  --au-wc-blue-900: #003b8e;
+  --au-wc-yellow-100: #fff9d5;
+  --au-wc-yellow-200: #fff29b;
+  --au-wc-yellow-300: #ffe615;
+  --au-wc-yellow-400: #ffc515;
+  --au-wc-yellow-600: #7f6e3b;
+  --au-wc-yellow-900: #473d21;
+  --au-wc-orange-200: #fff9e8;
+  --au-wc-orange-300: #ffeeb9;
+  --au-wc-orange-400: #ffe49c;
+  --au-wc-orange-500: #ffa10a;
+  --au-wc-orange-600: #d07b06;
+  --au-wc-orange-700: #9f5804;
+  --au-wc-red-100: #fdf7f7;
+  --au-wc-red-200: #fbeded;
+  --au-wc-red-300: #f4c8c9;
+  --au-wc-red-400: #f1aeae;
+  --au-wc-red-500: #e77474;
+  --au-wc-red-600: #d2373c;
+  --au-wc-red-700: #aa2729;
+  --au-wc-red-900: #470000;
+  --au-wc-green-100: #f8fcf9;
+  --au-wc-green-200: #ecf6ee;
+  --au-wc-green-300: #c5e5cc;
+  --au-wc-green-400: #b1dcbb;
+  --au-wc-green-500: #009e47;
+  --au-wc-green-700: #007a37;
+  --au-wc-green-900: #323d08;
+
+  /* Typography */
+  --au-wc-global-font-size: 1.5rem;
+  --au-wc-global-line-height: 1.5;
+  --au-wc-font: "flanders-sans", BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --au-wc-light: 300;
+  --au-wc-regular: 400;
+  --au-wc-medium: 500;
+  --au-wc-bold: 700;
+
+  /* Icon sizes */
+  --au-wc-icon-size: 1.3rem;
+  --au-wc-icon-size-medium: 1.6rem;
+  --au-wc-icon-size-large: 1.9rem;
+
+  /* UI */
+  --au-wc-radius: 0.3rem;
+  --au-wc-border: 0.2rem;
+  --au-wc-outline: #5990de 0.3rem solid;
+  --au-wc-outline-offset: 0.2rem;
+  --au-wc-transition: 0.125s cubic-bezier(0.19, 1, 0.22, 1);
+
+  /* Divider */
+  --au-wc-divider-color: #e8ebee;
+
+  /* Extended typography scale */
+  --au-wc-base: 1.5rem;
+  --au-wc-para: 1.8rem;
+  --au-wc-para-small: 1.6rem;
+  --au-wc-lead-small: 1.8rem;
+  --au-wc-small: 1.4rem;
+  --au-wc-tiny: 1.3rem;
+  --au-wc-h-functional-small: 1.3rem;
+  --au-wc-h-functional: 1.5rem;
+  --au-wc-h6: 1.6rem;
+  --au-wc-h5: 1.8rem;
+  --au-wc-h4: 2rem;
+  --au-wc-h3-small: 2.2rem;
+  --au-wc-h3: 2.6rem;
+  --au-wc-h2-small: 2.6rem;
+  --au-wc-h2: 3.2rem;
+  --au-wc-h1-small: 3rem;
+  --au-wc-h1-medium: 4rem;
+  --au-wc-h1: 4.4rem;
+
+  /* Z-index scale */
+  --au-wc-z-index-alpha: 1;
+  --au-wc-z-index-beta: 2;
+  --au-wc-z-index-gamma: 3;
+}
+
+/* ==========================================================================
+   Utility — visually hidden (used for expandable toggle labels)
+   ========================================================================== */
+
+.au-wc-hidden-visually {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ==========================================================================
+   Icons
+   Source: ember-appuniversum/styles/components/_c-icon.scss
+   ========================================================================== */
+
+.au-wc-icon {
+  display: inline-block;
+  width: var(--au-wc-icon-size);
+  height: var(--au-wc-icon-size);
+  position: relative;
+  vertical-align: baseline;
+  bottom: 0.05ex;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.au-wc-icon--large {
+  width: var(--au-wc-icon-size-large);
+  height: var(--au-wc-icon-size-large);
+}
+
+/* ==========================================================================
+   Badge
+   Source: ember-appuniversum/styles/components/_c-badge.scss
+   SCSS unit values resolved: $au-unit-large = 4.8rem, $au-unit = 2.4rem
+   ========================================================================== */
+
+.au-wc-badge {
+  color: var(--au-wc-gray-700);
+  background-color: var(--au-wc-white);
+  border-radius: 4.8rem;
+  height: 4.7rem; /* $au-unit-large - 0.1rem */
+  width: 4.8rem;
+  margin-right: 2.4rem; /* $au-unit-large * 0.5 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.au-wc-badge .au-wc-icon {
+  height: 1.9rem; /* $au-badge-icon-size - 0.1rem */
+  width: 2rem;
+  bottom: 0;
+}
+
+.au-wc-badge__number {
+  font-weight: var(--au-wc-medium);
+  font-size: 2rem;
+}
+
+/* Badge skins */
+.au-wc-badge--default {
+  color: var(--au-wc-gray-900);
+  background-color: var(--au-wc-gray-200);
+}
+
+.au-wc-badge--border {
+  color: var(--au-wc-gray-900);
+  border: 0.1rem solid var(--au-wc-gray-300);
+}
+
+.au-wc-badge--action {
+  color: var(--au-wc-white);
+  background-color: var(--au-wc-blue-700);
+}
+
+.au-wc-badge--brand {
+  color: var(--au-wc-yellow-900);
+  background-color: var(--au-wc-yellow-300);
+}
+
+.au-wc-badge--success {
+  color: var(--au-wc-white);
+  background-color: var(--au-wc-green-700);
+}
+
+.au-wc-badge--warning {
+  color: var(--au-wc-white);
+  background-color: var(--au-wc-orange-500);
+}
+
+.au-wc-badge--error {
+  color: var(--au-wc-white);
+  background-color: var(--au-wc-red-600);
+}
+
+/* Badge small modifier */
+.au-wc-badge--small {
+  height: 2.4rem; /* $au-unit-large - $au-unit = 4.8 - 2.4 */
+  width: 2.4rem;
+  margin-right: 0;
+}
+
+.au-wc-badge--small .au-wc-icon {
+  height: 1.4rem; /* $au-badge-small-icon-size - 0.1rem */
+  width: 1.5rem;
+}
+
+.au-wc-badge--small .au-wc-badge__number {
+  font-size: 1.3rem;
+}
+
+/* ==========================================================================
+   Card
+   Source: ember-appuniversum/styles/components/_c-card.scss
+   SCSS unit values resolved:
+     $au-unit-tiny  = 0.6rem
+     $au-unit-small = 1.2rem
+     $au-unit       = 2.4rem
+     $au-unit-large = 4.8rem
+   ========================================================================== */
+
+/* --- Base card --- */
+
+.au-wc-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--au-wc-white);
+  border: 0.1rem solid var(--au-wc-gray-200);
+  border-radius: var(--au-wc-radius);
+}
+
+.au-wc-card--fill {
+  height: 100%;
+}
+
+/* --- Modifiers --- */
+
+.au-wc-card--shadow {
+  border: 0;
+  box-shadow:
+    0 1px 3px rgba(51, 51, 50, 0.1),    /* --au-wc-gray-900 = #333332 */
+    0 4px 20px rgba(51, 51, 50, 0.035),
+    0 1px 1px rgba(51, 51, 50, 0.025);
+}
+
+.au-wc-card--standout {
+  background-color: var(--au-wc-gray-100);
+  border-color: var(--au-wc-gray-100);
+}
+
+.au-wc-card--text-center {
+  text-align: center;
+}
+
+.au-wc-card--text-center .au-wc-badge {
+  margin-right: 0;
+}
+
+/* --- Flex header --- */
+
+.au-wc-card--flex:not(.au-wc-card--expandable) .au-wc-card__header,
+.au-wc-card--flex.au-wc-card--expandable .au-wc-card__header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+/* Second child (content wrapper) fills remaining space when badge is present */
+.au-wc-card--flex:not(.au-wc-card--expandable) .au-wc-card__header > *:nth-child(2),
+.au-wc-card--flex.au-wc-card--expandable .au-wc-card__header > *:nth-child(2) {
+  flex-grow: 2;
+}
+
+/* Badge loses its bottom margin in flex-row header */
+.au-wc-card--flex:not(.au-wc-card--expandable) .au-wc-card__header .au-wc-badge,
+.au-wc-card--flex.au-wc-card--expandable .au-wc-card__header .au-wc-badge {
+  margin-bottom: 0;
+}
+
+.au-wc-card--flex:not(.au-wc-card--expandable) .au-wc-card__header {
+  align-items: center;
+}
+
+.au-wc-card--flex.au-wc-card--expandable .au-wc-card__header {
+  align-items: flex-start;
+}
+
+/* --- Sections --- */
+
+/* Badge inside header gets bottom margin in stacked (non-flex) mode */
+.au-wc-card__header .au-wc-badge {
+  margin-bottom: 1.2rem; /* $au-unit-small */
+}
+
+/* Padding variants */
+.au-wc-card--padding .au-wc-card__header,
+.au-wc-card--padding .au-wc-card__content,
+.au-wc-card--padding .au-wc-card__footer {
+  padding: 2.4rem; /* $au-unit */
+}
+
+.au-wc-card--padding-small .au-wc-card__header,
+.au-wc-card--padding-small .au-wc-card__content,
+.au-wc-card--padding-small .au-wc-card__footer {
+  padding: 1.2rem; /* $au-unit-small */
+}
+
+/*
+  Consecutive sections collapse their top padding unless divided.
+  Expands `& + &` across all three section types (SCSS selector expansion).
+*/
+.au-wc-card--padding:not(.au-wc-card--divided) .au-wc-card__header + .au-wc-card__header,
+.au-wc-card--padding:not(.au-wc-card--divided) .au-wc-card__header + .au-wc-card__content,
+.au-wc-card--padding:not(.au-wc-card--divided) .au-wc-card__header + .au-wc-card__footer,
+.au-wc-card--padding:not(.au-wc-card--divided) .au-wc-card__content + .au-wc-card__header,
+.au-wc-card--padding:not(.au-wc-card--divided) .au-wc-card__content + .au-wc-card__content,
+.au-wc-card--padding:not(.au-wc-card--divided) .au-wc-card__content + .au-wc-card__footer,
+.au-wc-card--padding:not(.au-wc-card--divided) .au-wc-card__footer + .au-wc-card__header,
+.au-wc-card--padding:not(.au-wc-card--divided) .au-wc-card__footer + .au-wc-card__content,
+.au-wc-card--padding:not(.au-wc-card--divided) .au-wc-card__footer + .au-wc-card__footer,
+.au-wc-card--padding-small:not(.au-wc-card--divided) .au-wc-card__header + .au-wc-card__header,
+.au-wc-card--padding-small:not(.au-wc-card--divided) .au-wc-card__header + .au-wc-card__content,
+.au-wc-card--padding-small:not(.au-wc-card--divided) .au-wc-card__header + .au-wc-card__footer,
+.au-wc-card--padding-small:not(.au-wc-card--divided) .au-wc-card__content + .au-wc-card__header,
+.au-wc-card--padding-small:not(.au-wc-card--divided) .au-wc-card__content + .au-wc-card__content,
+.au-wc-card--padding-small:not(.au-wc-card--divided) .au-wc-card__content + .au-wc-card__footer,
+.au-wc-card--padding-small:not(.au-wc-card--divided) .au-wc-card__footer + .au-wc-card__header,
+.au-wc-card--padding-small:not(.au-wc-card--divided) .au-wc-card__footer + .au-wc-card__content,
+.au-wc-card--padding-small:not(.au-wc-card--divided) .au-wc-card__footer + .au-wc-card__footer {
+  padding-top: 0;
+}
+
+/* Shadow expandable: header has no left padding (toggle is flush left) */
+.au-wc-card--shadow.au-wc-card--expandable .au-wc-card__header {
+  padding-left: 0;
+}
+
+/* Content grows to fill available vertical space */
+.au-wc-card__content {
+  flex-grow: 1;
+}
+
+.au-wc-card__content:focus {
+  outline: none;
+}
+
+/* Divided: border between sections */
+.au-wc-card--divided .au-wc-card__content,
+.au-wc-card--divided .au-wc-card__footer {
+  border-top: 0.1rem solid var(--au-wc-gray-200);
+}
+
+.au-wc-card--divided.au-wc-card--standout .au-wc-card__content,
+.au-wc-card--divided.au-wc-card--standout .au-wc-card__footer {
+  border-top-color: var(--au-wc-gray-300);
+}
+
+/* Standout footer */
+.au-wc-card--standout .au-wc-card__footer {
+  background-color: var(--au-wc-gray-100);
+}
+
+/* --- Expandable --- */
+
+.au-wc-card__clickable {
+  display: flex;
+  justify-content: space-between;
+  transition: background-color var(--au-wc-transition);
+  cursor: pointer;
+}
+
+.au-wc-card--shadow .au-wc-card__clickable {
+  justify-content: flex-start;
+}
+
+.au-wc-card__clickable:hover {
+  background-color: var(--au-wc-gray-100);
+}
+
+.au-wc-card__clickable .au-wc-card__header {
+  width: 100%;
+}
+
+.au-wc-card__toggle {
+  flex: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+}
+
+.au-wc-card--padding .au-wc-card__toggle {
+  margin-top: 2.4rem;
+  margin-right: 2.4rem;
+  margin-bottom: 2.4rem;
+}
+
+.au-wc-card--padding-small .au-wc-card__toggle {
+  margin-top: 1.2rem;
+  margin-right: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.au-wc-card--shadow.au-wc-card--padding .au-wc-card__toggle,
+.au-wc-card--shadow.au-wc-card--padding-small .au-wc-card__toggle {
+  margin-right: 0;
+}
+
+/* Toggle label visibility (mirrors Ember: show correct label per state) */
+.au-wc-card--expandable .au-wc-card__toggle[aria-expanded] .au-wc-card__toggle-false,
+.au-wc-card--expandable .au-wc-card__toggle[aria-expanded="true"] .au-wc-card__toggle-true {
+  display: none;
+}
+
+.au-wc-card--expandable .au-wc-card__toggle[aria-expanded="true"] .au-wc-card__toggle-false {
+  display: block;
+}
+
+/* ==========================================================================
+   Heading — au-wc-heading (light DOM; host IS the heading)
+   Breakpoints: small=767px (47.9375em), medium=1023px (63.9375em)
+   ========================================================================== */
+
+au-wc-heading {
+  display: block;
+  color: var(--au-wc-gray-900);
+  font-family: var(--au-wc-font);
+  font-weight: var(--au-wc-medium);
+  line-height: 1.2;
+}
+
+au-wc-heading.au-wc-heading--1 { font-size: var(--au-wc-h1-small); }
+au-wc-heading.au-wc-heading--2 { font-size: var(--au-wc-h2-small); }
+au-wc-heading.au-wc-heading--3 { font-size: var(--au-wc-h3-small); }
+au-wc-heading.au-wc-heading--4 { font-size: var(--au-wc-h4); }
+au-wc-heading.au-wc-heading--5 { font-size: var(--au-wc-h5); }
+au-wc-heading.au-wc-heading--6 { font-size: var(--au-wc-h6); }
+au-wc-heading.au-wc-heading--functional {
+  font-size: var(--au-wc-h-functional-small);
+  color: var(--au-wc-gray-700);
+}
+
+@media (min-width: 47.9375em) {
+  au-wc-heading.au-wc-heading--1 { font-size: var(--au-wc-h1-medium); }
+  au-wc-heading.au-wc-heading--2 { font-size: var(--au-wc-h2); }
+  au-wc-heading.au-wc-heading--3 { font-size: var(--au-wc-h3); }
+  au-wc-heading.au-wc-heading--functional { font-size: var(--au-wc-h-functional); }
+}
+
+@media (min-width: 63.9375em) {
+  au-wc-heading.au-wc-heading--1 { font-size: var(--au-wc-h1); }
+}
+
+/* ==========================================================================
+   Help Text — au-wc-help-text (light DOM; host IS the span)
+   ========================================================================== */
+
+au-wc-help-text {
+  display: block;
+  font-size: var(--au-wc-small);
+  color: var(--au-wc-gray-900);
+  margin-top: 0.6rem;
+}
+
+au-wc-help-text + au-wc-help-text { margin-top: 0; }
+au-wc-help-text.au-wc-help-text--normal { font-size: var(--au-wc-base); }
+au-wc-help-text.au-wc-help-text--large  { font-size: var(--au-wc-h6); }
+au-wc-help-text.au-wc-help-text--secondary { color: var(--au-wc-gray-700); }
+au-wc-help-text.au-wc-help-text--tertiary  { color: var(--au-wc-gray-700); font-style: italic; }
+au-wc-help-text.au-wc-help-text--error   { color: var(--au-wc-red-700);    font-weight: var(--au-wc-medium); }
+au-wc-help-text.au-wc-help-text--warning { color: var(--au-wc-orange-700); font-weight: var(--au-wc-medium); }
+
+/* ==========================================================================
+   Content — au-wc-content (light DOM; host IS the content div)
+   ========================================================================== */
+
+au-wc-content {
+  display: block;
+  font-size: var(--au-wc-para-small);
+  color: var(--au-wc-gray-900);
+}
+
+au-wc-content > * + * { margin-top: 2.4rem; }
+au-wc-content > * + h1,
+au-wc-content > * + h2,
+au-wc-content > * + h3 { margin-top: 4.8rem; }
+au-wc-content > * + h4,
+au-wc-content > * + h5,
+au-wc-content > * + h6 { margin-top: 2.4rem; }
+
+au-wc-content h1, au-wc-content h2, au-wc-content h3,
+au-wc-content h4, au-wc-content h5, au-wc-content h6 {
+  font-family: var(--au-wc-font);
+  font-weight: var(--au-wc-medium);
+}
+au-wc-content h1 { font-size: var(--au-wc-h1-small); }
+au-wc-content h2 { font-size: var(--au-wc-h2-small); }
+au-wc-content h3 { font-size: var(--au-wc-h3-small); }
+au-wc-content h4 { font-size: var(--au-wc-h4); }
+au-wc-content h5 { font-size: var(--au-wc-h5); }
+au-wc-content h6 { font-size: var(--au-wc-h6); }
+
+au-wc-content ul:not(.au-c-list-horizontal) { list-style: disc; margin-left: 2.4rem; }
+au-wc-content ol:not(.au-c-list-horizontal) { list-style: decimal; margin-left: 2.4rem; }
+au-wc-content ul:not(.au-c-list-horizontal) li + li,
+au-wc-content ol:not(.au-c-list-horizontal) li + li { margin-top: 0.6rem; }
+
+au-wc-content em { font-style: italic; color: var(--au-wc-gray-700); }
+
+au-wc-content table {
+  font-size: var(--au-wc-h6);
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  outline: 0.1rem solid var(--au-wc-gray-300);
+}
+au-wc-content th, au-wc-content td {
+  max-width: 55ch;
+  text-align: start;
+  padding: 1.2rem;
+}
+au-wc-content thead th {
+  font-weight: var(--au-wc-medium);
+  background-color: var(--au-wc-white);
+  box-shadow: inset 0 -0.2rem 0 0 var(--au-wc-gray-300);
+}
+au-wc-content tbody tr { border-bottom: 0.1rem solid var(--au-wc-gray-300); background-color: var(--au-wc-white); }
+
+@media (min-width: 63.9375em) {
+  au-wc-content { font-size: var(--au-wc-para); }
+  au-wc-content h1 { font-size: var(--au-wc-h1); }
+  au-wc-content h2 { font-size: var(--au-wc-h2); }
+  au-wc-content h3 { font-size: var(--au-wc-h3); }
+}
+
+au-wc-content.au-wc-content--small { font-size: var(--au-wc-para-small); }
+au-wc-content.au-wc-content--small > * + * { margin-top: 1.2rem; }
+au-wc-content.au-wc-content--large { font-size: var(--au-wc-para); }
+@media (min-width: 63.9375em) {
+  au-wc-content.au-wc-content--large { font-size: var(--au-wc-lead-small); }
+}
+
+/* ==========================================================================
+   Link — au-wc-link (used in shadow DOM for au-wc-link-external)
+   ========================================================================== */
+
+.au-wc-link {
+  display: inline-flex;
+  gap: 0.6rem;
+  align-items: center;
+  font-family: var(--au-wc-font);
+  transition: color var(--au-wc-transition), text-decoration var(--au-wc-transition);
+  font-weight: var(--au-wc-regular);
+  text-decoration-color: var(--au-wc-blue-300);
+  color: var(--au-wc-blue-700);
+}
+
+.au-wc-link:visited { color: var(--au-wc-blue-700); }
+.au-wc-link:hover, .au-wc-link:focus { color: var(--au-wc-blue-900); text-decoration-color: var(--au-wc-blue-200); }
+.au-wc-link:focus { outline: var(--au-wc-outline); outline-offset: var(--au-wc-outline-offset); }
+
+.au-wc-link--secondary,
+.au-wc-link--secondary:visited { color: var(--au-wc-gray-700); text-decoration-color: var(--au-wc-gray-300); }
+.au-wc-link--secondary:hover,
+.au-wc-link--secondary:focus { color: var(--au-wc-gray-900); text-decoration-color: var(--au-wc-gray-200); }
+
+.au-wc-link--block { display: flex; width: 100%; justify-content: center; }
+
+/* ==========================================================================
+   Button — au-wc-button (CSS classes applied to native <button> elements)
+   SCSS values: height=3.6rem (4.8-1.2), border=0.2rem, padding=1.2rem
+   ========================================================================== */
+
+.au-wc-button {
+  font-size: var(--au-wc-h6);
+  line-height: 3.2rem;
+  font-family: var(--au-wc-font);
+  font-weight: var(--au-wc-regular);
+  cursor: pointer;
+  height: 3.6rem;
+  text-decoration: none;
+  text-align: center;
+  appearance: none;
+  display: inline-flex;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0 1.2rem;
+  border-radius: var(--au-wc-radius);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition:
+    color var(--au-wc-transition),
+    background-color var(--au-wc-transition),
+    border-color var(--au-wc-transition),
+    box-shadow var(--au-wc-transition);
+  color: var(--au-wc-white);
+  background-color: var(--au-wc-blue-700);
+  border: 0.2rem solid var(--au-wc-blue-700);
+}
+
+.au-wc-button:visited { color: var(--au-wc-white); }
+.au-wc-button:hover,
+.au-wc-button:focus-visible {
+  color: var(--au-wc-white);
+  background-color: var(--au-wc-blue-900);
+  border-color: var(--au-wc-blue-900);
+  text-decoration: none;
+}
+.au-wc-button:focus { outline: 0; }
+.au-wc-button:focus-visible { outline: var(--au-wc-outline); outline-offset: var(--au-wc-outline-offset); }
+.au-wc-button:active { border-color: var(--au-wc-blue-900); background-color: var(--au-wc-blue-900); }
+
+.au-wc-button.is-disabled,
+.au-wc-button.is-disabled:hover,
+.au-wc-button.is-disabled:focus-visible,
+.au-wc-button.is-disabled:active {
+  cursor: not-allowed;
+  color: var(--au-wc-gray-700);
+  background-color: var(--au-wc-gray-300);
+  border-color: var(--au-wc-gray-300);
+}
+
+.au-wc-button--large {
+  font-size: var(--au-wc-h5);
+  padding: 1.2rem 1.2rem 1.3rem;
+  height: 4.8rem;
+  line-height: 1;
+}
+
+.au-wc-button--primary {
+  font-weight: var(--au-wc-medium);
+  -webkit-font-smoothing: antialiased;
+}
+
+.au-wc-button--secondary {
+  font-weight: var(--au-wc-medium);
+  -webkit-font-smoothing: antialiased;
+  color: var(--au-wc-blue-700);
+  background-color: transparent;
+  border-color: var(--au-wc-blue-700);
+}
+.au-wc-button--secondary:visited { color: var(--au-wc-blue-700); }
+.au-wc-button--secondary:hover,
+.au-wc-button--secondary:focus-visible,
+.au-wc-button--secondary:active {
+  color: var(--au-wc-blue-900);
+  background-color: transparent;
+  border-color: var(--au-wc-blue-900);
+}
+
+.au-wc-button--naked {
+  font-weight: var(--au-wc-medium);
+  -webkit-font-smoothing: antialiased;
+  color: var(--au-wc-blue-700);
+  background-color: transparent;
+  border-color: transparent;
+}
+.au-wc-button--naked:visited { color: var(--au-wc-blue-700); }
+.au-wc-button--naked:hover,
+.au-wc-button--naked:focus-visible,
+.au-wc-button--naked:active {
+  color: var(--au-wc-blue-900);
+  background-color: transparent;
+  border-color: transparent;
+}
+.au-wc-button--naked.is-disabled,
+.au-wc-button--naked.is-disabled:hover,
+.au-wc-button--naked.is-disabled:focus-visible,
+.au-wc-button--naked.is-disabled:active {
+  color: var(--au-wc-gray-700);
+  background-color: transparent;
+  border-color: transparent;
+}
+.au-wc-button--naked.is-loading,
+.au-wc-button--naked.is-loading:hover,
+.au-wc-button--naked.is-loading:focus-visible {
+  color: var(--au-wc-gray-700);
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.au-wc-button--link,
+.au-wc-button--link-bold {
+  font-size: inherit;
+  border-color: transparent;
+  padding: 0 0.6rem;
+  height: 3rem;
+  line-height: 3rem;
+  color: var(--au-wc-blue-700);
+  background-color: transparent;
+  text-decoration: underline;
+  text-decoration-color: var(--au-wc-blue-300);
+}
+.au-wc-button--link:visited,
+.au-wc-button--link-bold:visited { color: var(--au-wc-blue-700); }
+.au-wc-button--link:hover,
+.au-wc-button--link:focus-visible,
+.au-wc-button--link:active,
+.au-wc-button--link-bold:hover,
+.au-wc-button--link-bold:focus-visible,
+.au-wc-button--link-bold:active {
+  color: var(--au-wc-blue-900);
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  text-decoration: underline;
+  text-decoration-color: var(--au-wc-blue-200);
+}
+.au-wc-button--link.is-disabled,
+.au-wc-button--link.is-disabled:hover,
+.au-wc-button--link-bold.is-disabled,
+.au-wc-button--link-bold.is-disabled:hover {
+  color: var(--au-wc-gray-700);
+  background-color: transparent;
+  text-decoration: none;
+  border-color: transparent;
+}
+.au-wc-button--link.is-loading,
+.au-wc-button--link.is-loading:hover,
+.au-wc-button--link-bold.is-loading,
+.au-wc-button--link-bold.is-loading:hover {
+  color: var(--au-wc-gray-700);
+  background-color: transparent;
+  border-color: transparent;
+  text-decoration: none;
+}
+.au-wc-button--link-bold {
+  font-weight: var(--au-wc-medium);
+  text-decoration: none;
+}
+.au-wc-button--link-bold:hover,
+.au-wc-button--link-bold:focus-visible,
+.au-wc-button--link-bold:active { text-decoration: underline; }
+
+.au-wc-button--link-secondary {
+  font-size: inherit;
+  border-color: transparent;
+  padding: 0 0.6rem;
+  height: 3rem;
+  line-height: 3rem;
+  color: var(--au-wc-gray-700);
+  background-color: transparent;
+  text-decoration: underline;
+  text-decoration-color: var(--au-wc-gray-300);
+}
+.au-wc-button--link-secondary:visited { color: var(--au-wc-gray-700); }
+.au-wc-button--link-secondary:hover,
+.au-wc-button--link-secondary:focus-visible,
+.au-wc-button--link-secondary:active {
+  color: var(--au-wc-gray-900);
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  text-decoration: underline;
+  text-decoration-color: var(--au-wc-gray-200);
+}
+.au-wc-button--link-secondary.is-disabled,
+.au-wc-button--link-secondary.is-disabled:hover {
+  color: var(--au-wc-gray-700);
+  background-color: transparent;
+  text-decoration: none;
+  border-color: transparent;
+}
+
+.au-wc-button--alert:not([class*="is-"]) {
+  color: var(--au-wc-white);
+  background-color: var(--au-wc-red-600);
+  border-color: var(--au-wc-red-600);
+}
+.au-wc-button--alert:not([class*="is-"]):hover,
+.au-wc-button--alert:not([class*="is-"]):focus-visible,
+.au-wc-button--alert:not([class*="is-"]):active {
+  color: var(--au-wc-white);
+  background-color: var(--au-wc-red-700);
+  border-color: var(--au-wc-red-700);
+}
+.au-wc-button--alert.au-wc-button--secondary { background-color: transparent; }
+.au-wc-button--alert.au-wc-button--secondary,
+.au-wc-button--alert.au-wc-button--secondary:visited {
+  color: var(--au-wc-red-600);
+  border-color: var(--au-wc-red-600);
+}
+.au-wc-button--alert.au-wc-button--secondary:hover,
+.au-wc-button--alert.au-wc-button--secondary:focus-visible,
+.au-wc-button--alert.au-wc-button--secondary:active {
+  color: var(--au-wc-red-700);
+  border-color: var(--au-wc-red-700);
+}
+.au-wc-button--alert.au-wc-button--naked { background-color: transparent; }
+.au-wc-button--alert.au-wc-button--naked,
+.au-wc-button--alert.au-wc-button--naked:visited {
+  color: var(--au-wc-red-600);
+  border-color: transparent;
+}
+.au-wc-button--alert.au-wc-button--naked:hover,
+.au-wc-button--alert.au-wc-button--naked:focus-visible,
+.au-wc-button--alert.au-wc-button--naked:active {
+  color: var(--au-wc-red-700);
+  border-color: transparent;
+}
+
+.au-wc-button--icon-only {
+  padding: 0 calc((3.2rem - var(--au-wc-icon-size-medium)) / 2);
+}
+.au-wc-button--icon-only.au-wc-button--large {
+  padding: 0 calc((4.4rem - var(--au-wc-icon-size-large)) / 2);
+}
+.au-wc-button--icon-only .au-wc-icon {
+  width: var(--au-wc-icon-size-medium);
+  height: var(--au-wc-icon-size-medium);
+}
+.au-wc-button--icon-only.au-wc-button--large .au-wc-icon {
+  width: var(--au-wc-icon-size-large);
+  height: var(--au-wc-icon-size-large);
+}
+
+.au-wc-button.is-loading,
+.au-wc-button.is-loading:hover {
+  position: relative;
+  color: var(--au-wc-gray-700);
+  background-color: var(--au-wc-gray-300);
+  border-color: var(--au-wc-gray-300);
+}
+
+.au-wc-button--block { display: flex; width: 100%; justify-content: center; }
+.au-wc-button--wrap { height: auto; white-space: initial; text-align: left; }
+
+/* Loading animation (used inside au-wc-button) */
+.au-wc-loading-animation {
+  display: inline-block;
+  position: relative;
+  width: 3rem;
+  height: 1.8rem;
+}
+.au-wc-loading-animation::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(calc(-50% - 2rem), -50%);
+  width: 0.4rem;
+  height: 0.4rem;
+  background-color: transparent;
+  border-radius: 50%;
+  box-shadow:
+    1rem 0 var(--au-wc-gray-600),
+    2rem 0 var(--au-wc-gray-600),
+    3rem 0 var(--au-wc-gray-600);
+  animation: au-wc-loader-wave infinite 1s linear;
+}
+@keyframes au-wc-loader-wave {
+  0%, 60%, 100% { box-shadow: 1rem 0 var(--au-wc-gray-600), 2rem 0 var(--au-wc-gray-600), 3rem 0 var(--au-wc-gray-600); }
+  10% { box-shadow: 1rem -0.3rem var(--au-wc-gray-600), 2rem 0 var(--au-wc-gray-600), 3rem 0 var(--au-wc-gray-600); }
+  20% { box-shadow: 1rem -0.6rem var(--au-wc-gray-600), 2rem -0.3rem var(--au-wc-gray-600), 3rem 0 var(--au-wc-gray-600); }
+  30% { box-shadow: 1rem -0.3rem var(--au-wc-gray-600), 2rem -0.6rem var(--au-wc-gray-600), 3rem -0.3rem var(--au-wc-gray-600); }
+  40% { box-shadow: 1rem 0 var(--au-wc-gray-600), 2rem -0.3rem var(--au-wc-gray-600), 3rem -0.6rem var(--au-wc-gray-600); }
+  50% { box-shadow: 1rem 0 var(--au-wc-gray-600), 2rem 0 var(--au-wc-gray-600), 3rem -0.3rem var(--au-wc-gray-600); }
+}
+
+/* ==========================================================================
+   Loader — au-wc-loader (light DOM; host IS the loader div)
+   ========================================================================== */
+
+au-wc-loader {
+  display: block;
+}
+
+.au-wc-loader__anim {
+  display: inline-block;
+  position: relative;
+  width: 3rem;
+  height: 1.8rem;
+}
+
+.au-wc-loader__anim::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(calc(-50% - 2rem), -50%);
+  width: 0.4rem;
+  height: 0.4rem;
+  background-color: transparent;
+  border-radius: 50%;
+  box-shadow: 1rem 0 var(--au-wc-white), 2rem 0 var(--au-wc-white), 3rem 0 var(--au-wc-white);
+  animation: au-wc-loader-wave infinite 1s linear;
+}
+
+@keyframes au-wc-loader-wave {
+  0%, 60%, 100% {
+    box-shadow: 1rem 0 var(--au-wc-gray-600), 2rem 0 var(--au-wc-gray-600), 3rem 0 var(--au-wc-gray-600);
+  }
+  10% { box-shadow: 1rem -0.3rem var(--au-wc-gray-600), 2rem 0 var(--au-wc-gray-600), 3rem 0 var(--au-wc-gray-600); }
+  20% { box-shadow: 1rem -0.6rem var(--au-wc-gray-600), 2rem -0.3rem var(--au-wc-gray-600), 3rem 0 var(--au-wc-gray-600); }
+  30% { box-shadow: 1rem -0.3rem var(--au-wc-gray-600), 2rem -0.6rem var(--au-wc-gray-600), 3rem -0.3rem var(--au-wc-gray-600); }
+  40% { box-shadow: 1rem 0 var(--au-wc-gray-600), 2rem -0.3rem var(--au-wc-gray-600), 3rem -0.6rem var(--au-wc-gray-600); }
+  50% { box-shadow: 1rem 0 var(--au-wc-gray-600), 2rem 0 var(--au-wc-gray-600), 3rem -0.3rem var(--au-wc-gray-600); }
+}
+
+/* ==========================================================================
+   Layout — au-wc-layout
+   Source: ember-appuniversum/styles/objects/_o-layout.scss ($au-layout-width: 900px)
+   ========================================================================== */
+
+.au-wc-layout {
+  padding-right: 2.4rem;
+  padding-left: 2.4rem;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 900px;
+}
+
+@media (min-width: 63.9375em) {
+  .au-wc-layout {
+    padding-right: 4.8rem;
+    padding-left: 4.8rem;
+  }
+}
+
+/* ==========================================================================
+   Content Header — au-wc-content-header (shadow DOM)
+   CSS used inside the shadow root via <link href="styles.css">
+   ========================================================================== */
+
+.au-wc-content-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  max-height: 40rem;
+  min-height: 10rem;
+  color: var(--au-wc-gray-900);
+  background-color: var(--au-wc-yellow-300);
+}
+
+.au-wc-content-header__bg {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 40%;
+  overflow: hidden;
+  transform-origin: 100% 50%;
+}
+
+.au-wc-content-header__bg ::slotted(img) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.au-wc-content-header__bg::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: -0.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border-bottom: 40rem solid var(--au-wc-yellow-300);
+  border-right: 13.68rem solid transparent;
+}
+
+@media (min-width: 63.9375em) {
+  .au-wc-content-header__bg { width: 50%; }
+}
+
+.au-wc-content-header__wrapper {
+  width: 100%;
+  padding-top: 2.4rem;
+  padding-bottom: 2.4rem;
+}
+
+@media (min-width: 63.9375em) {
+  .au-wc-content-header__wrapper { padding-top: 4.8rem; padding-bottom: 4.8rem; }
+}
+
+.au-wc-content-header__top,
+.au-wc-content-header__bottom {
+  font-size: var(--au-wc-h3-small);
+  line-height: 1;
+  font-family: var(--au-wc-font);
+  display: inline-block;
+  max-width: 60%;
+}
+
+@media (min-width: 63.9375em) {
+  .au-wc-content-header__top,
+  .au-wc-content-header__bottom { font-size: var(--au-wc-h3); line-height: 1.1; max-width: 50%; }
+}
+
+.au-wc-content-header__top    { font-weight: var(--au-wc-regular); }
+.au-wc-content-header__bottom { font-weight: var(--au-wc-medium); }
+
+.au-wc-content-header--large .au-wc-content-header__bg { width: 100%; }
+.au-wc-content-header--large .au-wc-content-header__bg::after { content: none; }
+.au-wc-content-header--large .au-wc-content-header__top,
+.au-wc-content-header--large .au-wc-content-header__bottom {
+  background: var(--au-wc-white);
+  display: inline;
+  padding: 0.4rem 0.5rem;
+}
+.au-wc-content-header--large .au-wc-content-header__wrapper {
+  z-index: 1;
+  padding-top: 4.8rem;
+  padding-bottom: 4.8rem;
+}
+@media (min-width: 63.9375em) {
+  .au-wc-content-header--large .au-wc-content-header__wrapper { padding-top: 9.6rem; padding-bottom: 9.6rem; }
+}
+
+/* ==========================================================================
+   Brand — au-wc-brand (used inside shadow DOM of main-header and main-footer)
+   ========================================================================== */
+
+.au-wc-brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  position: relative;
+  background-color: var(--au-wc-white);
+}
+
+.au-wc-brand--link:focus { outline: none; }
+
+.au-wc-brand__logo {
+  position: relative;
+  width: 4.2rem;
+  height: 4.2rem;
+  padding-left: 0.75rem;
+  overflow: hidden;
+  background-color: var(--au-wc-white);
+  transition: background-color var(--au-wc-transition);
+}
+
+.au-wc-brand__logo svg {
+  fill: var(--au-wc-gray-900);
+  height: 100%;
+  width: 56%;
+}
+
+.au-wc-brand__logo img {
+  height: 100%;
+  width: auto;
+}
+
+.au-wc-brand__logo::before {
+  content: "";
+  display: block;
+  position: absolute;
+  right: -0.1rem;
+  bottom: -0.3rem;
+  border-top: 9rem solid var(--au-wc-white);
+  border-left: 3.07818rem solid transparent;
+}
+
+.au-wc-brand__logo::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -0.2rem;
+  right: 17%;
+  transform: rotate(-19deg);
+  width: 0.1rem;
+  height: calc(100% + 0.4rem);
+  background-color: var(--au-wc-gray-300);
+}
+
+.au-wc-brand--link:hover .au-wc-brand__logo,
+.au-wc-brand--link:focus .au-wc-brand__logo { background-color: var(--au-wc-gray-200); }
+
+.au-wc-brand__logotype {
+  display: none;
+  position: relative;
+  font-size: 1.8rem;
+  line-height: 1;
+  font-family: var(--au-wc-font);
+  font-weight: var(--au-wc-medium);
+  color: var(--au-wc-gray-900);
+  margin-left: 0.6rem;
+  transition: color var(--au-wc-transition);
+}
+
+@media (min-width: 47.9375em) {
+  .au-wc-brand__logotype {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 4.2rem;
+    padding-right: 1.2rem;
+  }
+  .au-wc-brand--link:hover .au-wc-brand__logotype,
+  .au-wc-brand--link:focus .au-wc-brand__logotype { color: var(--au-wc-blue-700); }
+}
+
+.au-wc-brand__main    { font-size: var(--au-wc-h5); line-height: 1.2; display: block; }
+.au-wc-brand__tagline { font-size: 1.2rem; line-height: 1.2; font-weight: var(--au-wc-regular); display: block; }
+
+/* ==========================================================================
+   Main Header — au-wc-main-header (shadow DOM)
+   ========================================================================== */
+
+.au-wc-main-header {
+  position: relative;
+  z-index: var(--au-wc-z-index-beta);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--au-wc-white);
+  box-shadow:
+    0 1px 3px rgba(51, 51, 50, 0.1),
+    0 4px 20px rgba(51, 51, 50, 0.035),
+    0 1px 1px rgba(51, 51, 50, 0.025);
+}
+
+.au-wc-main-header__title-group {
+  display: flex;
+  align-items: center;
+  color: var(--au-wc-gray-900);
+  text-decoration: none;
+}
+
+.au-wc-main-header__title {
+  font-size: var(--au-wc-base);
+  line-height: 1;
+  font-weight: var(--au-wc-medium);
+  text-transform: uppercase;
+  position: relative;
+  display: block;
+  padding: 0.6rem;
+  color: var(--au-wc-gray-900);
+  transition: color var(--au-wc-transition), text-decoration-color var(--au-wc-transition);
+  letter-spacing: 0.03ex;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 9.6rem;
+  text-decoration: none;
+}
+
+@media (min-width: 31.25em) {
+  .au-wc-main-header__title { max-width: 14.4rem; }
+}
+
+@media (min-width: 47.9375em) {
+  .au-wc-main-header__title {
+    padding-left: 2.4rem;
+    max-width: 19.2rem;
+  }
+  .au-wc-main-header__title::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0.5rem;
+    transform: rotate(-19deg);
+    width: 0.1rem;
+    height: 3rem;
+    background-color: var(--au-wc-gray-300);
+  }
+}
+
+@media (min-width: 63.9375em) {
+  .au-wc-main-header__title { max-width: initial; }
+}
+
+.au-wc-main-header__title--link {
+  text-decoration: underline;
+  text-underline-offset: 0.3ex;
+  text-decoration-color: var(--au-wc-gray-300);
+}
+.au-wc-main-header__title--link:hover,
+.au-wc-main-header__title--link:focus {
+  color: var(--au-wc-gray-700);
+  text-decoration-color: var(--au-wc-gray-200);
+}
+.au-wc-main-header__title--link:focus { outline: var(--au-wc-outline); }
+
+.au-wc-main-header__skiplink {
+  font-size: var(--au-wc-base);
+  line-height: 1;
+  font-weight: var(--au-wc-regular);
+  position: absolute;
+  transition: color var(--au-wc-transition);
+  letter-spacing: 0.03ex;
+  margin-left: 1.2rem;
+  padding: 0.6rem;
+  background-color: var(--au-wc-gray-100);
+  border-radius: var(--au-wc-radius);
+  z-index: var(--au-wc-z-index-alpha);
+  top: -1000px;
+  left: -1000px;
+  color: var(--au-wc-gray-900);
+  text-decoration: underline;
+  text-decoration-color: var(--au-wc-gray-300);
+}
+.au-wc-main-header__skiplink:hover,
+.au-wc-main-header__skiplink:focus {
+  color: var(--au-wc-gray-900);
+  text-decoration-color: var(--au-wc-gray-300);
+}
+.au-wc-main-header__skiplink:focus {
+  outline: var(--au-wc-outline);
+  top: 4.8rem;
+  left: -0.6rem;
+}
+@media (min-width: 63.9375em) {
+  .au-wc-main-header__skiplink { position: relative; }
+  .au-wc-main-header__skiplink:focus { top: 0; left: 0; }
+}
+
+.au-wc-main-header__actions {
+  font-size: var(--au-wc-base);
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 1.2rem;
+}
+
+.au-wc-main-header__nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* ==========================================================================
+   Main Footer — au-wc-main-footer (shadow DOM)
+   ========================================================================== */
+
+.au-wc-main-footer {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2.4rem;
+  background-color: var(--au-wc-white);
+  border-top: 0.1rem solid var(--au-wc-divider-color);
+}
+
+.au-wc-main-footer__brand {
+  padding-right: 2.4rem;
+  padding-bottom: 2.4rem;
+}
+
+@media (min-width: 100em) {
+  .au-wc-main-footer__brand { padding-right: 4.8rem; }
+}
+
+.au-wc-main-footer__content { flex: 1; }
+
+/* ==========================================================================
+   Fieldset — au-wc-fieldset (light DOM compound)
+   ========================================================================== */
+
+au-wc-fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+
+au-wc-fieldset-legend {
+  display: block;
+  font-family: var(--au-wc-font);
+  font-weight: var(--au-wc-medium);
+  color: var(--au-wc-gray-900);
+  font-size: var(--au-wc-h6);
+}
+
+au-wc-fieldset-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* ==========================================================================
+   Radio group — plain HTML pattern with au-wc- classes
+   ========================================================================== */
+
+.au-wc-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.au-wc-radio {
+  position: relative;
+  display: inline-flex;
+  gap: 0.6rem;
+  color: var(--au-wc-gray-900);
+  cursor: pointer;
+  align-items: flex-start;
+}
+
+.au-wc-radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.au-wc-radio__indicator {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  min-width: 1.8rem;
+  height: 1.8rem;
+  background-color: var(--au-wc-gray-100);
+  background-size: 1.2rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  user-select: none;
+  border: 0.1rem solid var(--au-wc-gray-300);
+  border-radius: 50%;
+  margin-top: 0.3rem;
+}
+
+.au-wc-radio input[type="radio"]:focus ~ .au-wc-radio__indicator {
+  outline: var(--au-wc-outline);
+  outline-offset: 0.2rem;
+}
+
+.au-wc-radio input[type="radio"]:checked ~ .au-wc-radio__indicator {
+  background-color: var(--au-wc-blue-700);
+  border-color: var(--au-wc-blue-700);
+  /* radio dot as base64 SVG */
+  background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgOCA4IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA4IDgiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik00LDFDMi4zLDEsMSwyLjMsMSw0czEuMywyLDMsM3MzLTEuMiwzLTNTNS43LDEsNCwxeiIvPjwvc3ZnPg==");
+}

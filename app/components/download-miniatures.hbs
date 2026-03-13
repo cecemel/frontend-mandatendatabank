@@ -1,66 +1,74 @@
 <div class="au-o-grid au-u-margin-bottom">
   {{#if this.csvFile}}
     <div class="au-o-grid__item au-u-1-1 au-u-1-2@medium">
-      <AuCard @flex="true" @divided="true" as |c|>
-        <c.header @badgeSkin="brand" @badgeIcon="download">
-          <AuHeading @level="2" @skin="4">
+      <au-wc-card flex divided>
+        <au-wc-card-header badge-skin="brand" badge-icon="download">
+          <div>
+            <au-wc-heading level="2" skin="4">
+              Download in CSV formaat
+            </au-wc-heading>
+            <p>Voor spreadsheet editors zoals Excel of Numbers.</p>
+          </div>
+        </au-wc-card-header>
+        <au-wc-card-content>
+          <au-wc-link-external icon="download" skin="button" href={{this.downloadLink this.csvFile}} download>
             Download in CSV formaat
-          </AuHeading>
-          <p>Voor spreadsheet editors zoals Excel of Numbers.</p>
-        </c.header>
-        <c.content>
-          <AuLinkExternal @icon="download" @skin="button" href={{this.downloadLink this.csvFile}} download>
-            Download in CSV formaat
-          </AuLinkExternal>
-          <AuHelpText>{{this.csvMetadata}}</AuHelpText>
-        </c.content>
-      </AuCard>
+          </au-wc-link-external>
+          <au-wc-help-text>{{this.csvMetadata}}</au-wc-help-text>
+        </au-wc-card-content>
+      </au-wc-card>
     </div>
   {{else}}
     <div class="au-o-grid__item au-u-1-1 au-u-1-2@medium">
-      <AuCard @flex="true" @divided="true" as |c|>
-        <c.header @badgeSkin="brand" @badgeIcon="download">
-          <AuHeading @level="2" @skin="4">
-            Download in CSV formaat
-          </AuHeading>
-          <p>Voor spreadsheet editors zoals Excel of Numbers.</p>
-        </c.header>
-        <c.content>
-          <AuHelpText>Momenteel niet beschikbaar</AuHelpText>
-        </c.content>
-      </AuCard>
+      <au-wc-card flex divided>
+        <au-wc-card-header badge-skin="brand" badge-icon="download">
+          <div>
+            <au-wc-heading level="2" skin="4">
+              Download in CSV formaat
+            </au-wc-heading>
+            <p>Voor spreadsheet editors zoals Excel of Numbers.</p>
+          </div>
+        </au-wc-card-header>
+        <au-wc-card-content>
+          <au-wc-help-text>Momenteel niet beschikbaar</au-wc-help-text>
+        </au-wc-card-content>
+      </au-wc-card>
     </div>
   {{/if}}
   {{#if this.ttlFile}}
     <div class="au-o-grid__item au-u-1-1 au-u-1-2@medium">
-      <AuCard @flex="true" @divided="true" as |c|>
-        <c.header @badgeSkin="brand" @badgeIcon="download">
-          <AuHeading @level="2" @skin="4">
+      <au-wc-card flex divided>
+        <au-wc-card-header badge-skin="brand" badge-icon="download">
+          <div>
+            <au-wc-heading level="2" skin="4">
+              Download in Turtle formaat
+            </au-wc-heading>
+            <p>Gestructureerde data voor dataverwerking en analyse</p>
+          </div>
+        </au-wc-card-header>
+        <au-wc-card-content>
+          <au-wc-link-external icon="download" skin="button" href={{this.downloadLink this.ttlFile}} download>
             Download in Turtle formaat
-          </AuHeading>
-          <p>Gestructureerde data voor dataverwerking en analyse</p>
-        </c.header>
-        <c.content>
-          <AuLinkExternal @icon="download" @skin="button" href={{this.downloadLink this.ttlFile}} download>
-            Download in Turtle formaat
-          </AuLinkExternal>
-          <AuHelpText>{{this.ttlMetadata}}</AuHelpText>
-        </c.content>
-      </AuCard>
+          </au-wc-link-external>
+          <au-wc-help-text>{{this.ttlMetadata}}</au-wc-help-text>
+        </au-wc-card-content>
+      </au-wc-card>
     </div>
   {{else}}
     <div class="au-o-grid__item au-u-1-1 au-u-1-2@medium">
-      <AuCard @flex="true" @divided="true" as |c|>
-        <c.header @badgeSkin="brand" @badgeIcon="download">
-          <AuHeading @level="2" @skin="4">
-            Download in Turtle formaat
-          </AuHeading>
-          <p>Gestructureerde data voor dataverwerking en analyse</p>
-        </c.header>
-        <c.content>
-          <AuHelpText>Momenteel niet beschikbaar</AuHelpText>
-        </c.content>
-      </AuCard>
+      <au-wc-card flex divided>
+        <au-wc-card-header badge-skin="brand" badge-icon="download">
+          <div>
+            <au-wc-heading level="2" skin="4">
+              Download in Turtle formaat
+            </au-wc-heading>
+            <p>Gestructureerde data voor dataverwerking en analyse</p>
+          </div>
+        </au-wc-card-header>
+        <au-wc-card-content>
+          <au-wc-help-text>Momenteel niet beschikbaar</au-wc-help-text>
+        </au-wc-card-content>
+      </au-wc-card>
     </div>
   {{/if}}
 </div>
