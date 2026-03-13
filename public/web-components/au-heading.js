@@ -8,32 +8,28 @@
  *   level — string: "1"–"6", sets aria-level and default visual size
  *   skin  — string: "1"–"6" | "functional", overrides visual size only
  *
- * Requires: utils.js
- *
  * Usage:
  *   <au-wc-heading level="2" skin="4">Title</au-wc-heading>
  */
 
-(function () {
-  'use strict';
+import { userClasses } from './utils.js';
 
-  class AuWcHeading extends HTMLElement {
-    static get observedAttributes() { return ['level', 'skin']; }
+class AuWcHeading extends HTMLElement {
+  static get observedAttributes() { return ['level', 'skin']; }
 
-    connectedCallback() { this._update(); }
+  connectedCallback() { this._update(); }
 
-    attributeChangedCallback() { if (this.isConnected) this._update(); }
+  attributeChangedCallback() { if (this.isConnected) this._update(); }
 
-    _update() {
-      const level   = this.getAttribute('level') || '1';
-      const skin    = this.getAttribute('skin') || level;
-      const classes = ['au-wc-heading', `au-wc-heading--${skin}`, ...AuWc.userClasses(this, 'au-wc-heading')];
+  _update() {
+    const level   = this.getAttribute('level') || '1';
+    const skin    = this.getAttribute('skin') || level;
+    const classes = ['au-wc-heading', `au-wc-heading--${skin}`, ...userClasses(this, 'au-wc-heading')];
 
-      this.setAttribute('role', 'heading');
-      this.setAttribute('aria-level', level);
-      this.className = classes.join(' ');
-    }
+    this.setAttribute('role', 'heading');
+    this.setAttribute('aria-level', level);
+    this.className = classes.join(' ');
   }
+}
 
-  customElements.define('au-wc-heading', AuWcHeading);
-})();
+customElements.define('au-wc-heading', AuWcHeading);

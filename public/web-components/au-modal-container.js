@@ -8,14 +8,10 @@
  *   <au-wc-modal-container></au-wc-modal-container>
  */
 
-(function () {
-  'use strict';
-
-  class AuWcModalContainer extends HTMLElement {
-    connectedCallback() {
-      this.setAttribute('data-au-modal-container', '');
-    }
+class AuWcModalContainer extends HTMLElement {
+  connectedCallback() {
+    this.setAttribute('data-au-modal-container', '');
   }
+}
 
-  customElements.define('au-wc-modal-container', AuWcModalContainer);
-})();
+customElements.define('au-wc-modal-container', AuWcModalContainer);

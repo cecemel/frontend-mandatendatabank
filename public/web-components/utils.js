@@ -1,74 +1,61 @@
 /**
  * au-wc — shared utilities.
  *
- * Must be loaded before all other au-wc-*.js scripts.
- * Source directory is derived once from this script's own URL so every
+ * Source directory is derived once from this module's own URL so every
  * component automatically resolves styles.css and icons/ correctly.
  *
- * Exposes: window.AuWc
- *   .stylesUrl              — absolute URL to styles.css
- *   .iconBaseUrl            — absolute URL to the icons/ directory
- *   .loadIcon(name)         — Promise<string>  raw inner SVG markup
- *   .makeSvgIcon(name,large)— Promise<string>  full <svg class="au-wc-icon"> element
- *   .boolAttr(el, name)     — boolean  reads presence/string boolean attribute
- *   .escape(str)            — string   escapes HTML entities (attributes + text)
- *   .userClasses(el,prefix) — string[] classes on el that do NOT start with prefix
+ * Exports:
+ *   stylesUrl              — absolute URL to styles.css
+ *   iconBaseUrl            — absolute URL to the icons/ directory
+ *   loadIcon(name)         — Promise<string>  raw inner SVG markup
+ *   makeSvgIcon(name,large)— Promise<string>  full <svg class="au-wc-icon"> element
+ *   boolAttr(el, name)     — boolean  reads presence/string boolean attribute
+ *   escape(str)            — string   escapes HTML entities (attributes + text)
+ *   userClasses(el,prefix) — string[] classes on el that do NOT start with prefix
  */
-(function () {
-  'use strict';
 
-  const _base = (function () {
-    const src = document.currentScript && document.currentScript.src;
-    return src ? src.replace(/\/[^/]+$/, '') : '/web-components';
-  })();
+const _base = new URL('.', import.meta.url).href.replace(/\/$/, '');
 
-  const _stylesUrl = `${_base}/styles.css`;
-  const _iconBaseUrl = `${_base}/icons`;
-  const _iconCache = Object.create(null);
+const _iconCache = Object.create(null);
 
-  function fetchIconInnerSvg(name) {
-    return fetch(`${_iconBaseUrl}/${name}.svg`)
-      .then((r) => r.text())
-      .then((text) => text.replace(/<svg[^>]*>/, '').replace(/<\/svg>\s*$/, ''));
+function fetchIconInnerSvg(name) {
+  return fetch(`${iconBaseUrl}/${name}.svg`)
+    .then((r) => r.text())
+    .then((text) => text.replace(/<svg[^>]*>/, '').replace(/<\/svg>\s*$/, ''));
+}
+
+export const stylesUrl = `${_base}/styles.css`;
+export const iconBaseUrl = `${_base}/icons`;
+
+export function loadIcon(name) {
+  if (!_iconCache[name]) {
+    _iconCache[name] = fetchIconInnerSvg(name);
   }
+  return _iconCache[name];
+}
 
-  window.AuWc = {
+export function makeSvgIcon(name, large) {
+  const classes = ['au-wc-icon'];
+  if (large) classes.push('au-wc-icon--large');
 
-    stylesUrl: _stylesUrl,
-    iconBaseUrl: _iconBaseUrl,
+  return loadIcon(name).then((inner) => {
+    return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="${classes.join(' ')}" aria-hidden="true">${inner}</svg>`;
+  });
+}
 
-    loadIcon(name) {
-      if (!_iconCache[name]) {
-        _iconCache[name] = fetchIconInnerSvg(name);
-      }
-      return _iconCache[name];
-    },
+export function boolAttr(el, name) {
+  const val = el.getAttribute(name);
+  return val !== null && val !== 'false';
+}
 
-    makeSvgIcon(name, large) {
-      const classes = ['au-wc-icon'];
-      if (large) classes.push('au-wc-icon--large');
+export function escape(str) {
+  return (str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
 
-      return this.loadIcon(name).then((inner) => {
-        return `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="${classes.join(' ')}" aria-hidden="true">${inner}</svg>`;
-      });
-    },
-
-    boolAttr(el, name) {
-      const val = el.getAttribute(name);
-      return val !== null && val !== 'false';
-    },
-
-    escape(str) {
-      return (str || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    },
-
-    userClasses(el, prefix) {
-      return Array.from(el.classList).filter((c) => !c.startsWith(prefix));
-    },
-
-  };
-})();
+export function userClasses(el, prefix) {
+  return Array.from(el.classList).filter((c) => !c.startsWith(prefix));
+}
